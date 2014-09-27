@@ -1,0 +1,46 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard | {{ user }} | {{ date }}
+{% endblock %}
+
+{% block message %}
+  <div id="dashboard-progress" class="container">
+    <div class="row">
+      <div class="col-xs-8">
+        <div class="col-xs-12">
+         <div id="calories-week"></div> 
+        </div>
+        <div class="col-xs-6 top-buffer">
+          <div id="daily-calories"></div>
+        </div>
+        <div class="col-xs-6 top-buffer">
+          <div id="week-macros"></div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="col-xs-12 no-left-padding no-right-padding">
+          <div class="dashboard-btn col-xs-12"><span class="dashboard-stat">{{ date }}</span> {{ meal_record.meal }}<span id="workout-id" class="hidden">{{ meal_record.id }}</span></div>
+        </div>
+        <div class="col-xs-12 no-left-padding no-right-padding top-buffer">
+          <a id="log-workout" class="btn btn-lg btn-success full-width">Log Workout</a>
+        </div>
+        <div class="col-xs-12 no-left-padding no-right-padding top-buffer">
+          <a id="log-meal" class="btn btn-lg btn-success full-width">Log Meal</a>
+        </div>
+        <div id="dashboard-feed" class="col-xs-12 top-buffer">
+          {% for meal in meals %}
+            <div class="dashboard-workout col-xs-12">
+              <a href="/dashboard/nutrition/{{ meal.id}}">{{ meal.meal }} <span class="workout-date"> - {{ meal.date }}</span></a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

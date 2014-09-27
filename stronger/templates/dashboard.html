@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard
+{% endblock %}
+
+{% block sidebar %}
+  <ul class="nav navbar-nav side-nav">
+    <li>
+        <a href="{% url 'dashboard' %}">
+            <i class="fa fa-dashboard hidden-xs"></i> 
+            <span class="hidden-sm">Home</span>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'workouts' %}">
+            <i class="fa fa-bar-chart-o hidden-xs"></i>
+            <span class="hidden-sm">Workouts</span>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'nutrition' %}">
+            <i class="fa fa-coffee hidden-xs"></i>
+            <span class="hidden-sm">Nutrition</span>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'exercises' %}">
+            <i class="fa fa-cog hidden-xs"></i>
+            <span class="hidden-sm">Exercises</span>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'users' %}">
+        <i class="fa fa-user hidden-xs"></i>
+        <span class="hidden-sm">Users</span>
+    </a>
+    </li>
+    <li>
+        <a href="{% url 'groups' %}">
+            <i class="fa fa-users hidden-xs"></i>
+            <span class="hidden-sm">Groups</span>
+        </a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block message %}
+{% endblock %}

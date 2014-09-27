@@ -1,0 +1,980 @@
+/***** Variables  *****/
+
+/* Colours */
+@light-grey: #E3E3E3;
+@medium-grey: #CCC;
+@dark-grey: #222222;
+@deep-red: #3A0000;
+@warning-red: #990000;
+@light-black: #121212;
+@black: #000;
+@white: #FFF;
+@turquoise: #64C5C7;
+@success-green: #4CAE4C;
+
+@blue1: #16193B;
+@blue2: #35478C;
+@blue3: #4E7AC7;
+@blue4: #7FB2F0;
+@blue5: #ADD5F7;
+
+/* URLS */
+@static-images: '/static/stronger/img/';
+
+/***** Functions *****/
+
+.banner-wallpaper(@image) {
+	background-image: url('@{static-images}@{image}');
+	background-attachment: fixed;
+	height: 200px;
+}
+
+/***** Util Classes *****/
+
+.blue1-background {
+	background-color: @blue1;
+}
+
+.blue2-background {
+	background-color: @blue2;
+}
+
+.blue3-background {
+	background-color: @blue3;
+}
+
+.blue4-background {
+	background-color: @blue4;
+}
+
+.blue5-background {
+	background-color: @blue5;
+}
+
+
+.block { display: block; }
+
+.hide-it { display: none; }
+
+.opacity { opacity: 0.5 };
+
+.uppercase { text-transform: uppercase; }
+
+.full-width { width: 100%; }
+
+.heavy-font { font-weight: 700; }
+
+.no-padding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.no-left-padding { padding-left: 0; }
+
+.no-right-padding { padding-right: 0; }
+
+.left-padding { padding-left: 20px; }
+
+.right-padding { padding-right: 20px; }
+
+.top-buffer { margin-top:20px; }
+
+.bottom-buffer { margin-bottom: 20px; }
+
+.top-padding { padding-top: 40px; }
+
+.bottom-padding { padding-bottom: 40px; }
+
+.focused {
+	 transition: opacity .25s ease-in-out;
+	 -moz-transition: opacity .25s ease-in-out;
+	 -webkit-transition: opacity .25s ease-in-out;
+}
+
+.red { color: @warning-red; }
+
+.green { color: @success-green; }
+
+.white { background-color: @white;  }
+
+.white-background {
+	background-color: @white;
+	.grey-round-border;
+}
+
+.white-grid-div {
+	.white-background;
+	padding: 20px;
+	height: 200px;
+}
+
+.select2-hidden-accessible { display: none; }
+
+.no-bullet-points {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.top-border-radius {
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.grey-round-border {
+	border-radius: 3px;
+	border: 1px solid @medium-grey;
+}
+
+.form-field {
+	padding: 10px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.wide-form-field {
+	.form-field;
+	width: 100%;
+	@media (min-width:798px) {
+		margin: 0 20% 10px;
+		width: 60%;
+	}
+}
+
+.form-title {
+	text-align: center;
+	display: block;
+	width: 100%;
+	color: @white;
+}
+
+.highchart {
+	height: 200px;
+	border-radius: 3px;
+	border: 1px solid @white;
+	background-color: @white;
+	text-align: center;
+}
+
+/***** General Layout and Common Elements *****/
+
+html {
+	overflow-y:scroll;
+	min-height:100%;
+	position: relative;
+}
+
+body {
+	color: @white;
+	background-color: @medium-grey;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 16px;
+}
+
+#contents {
+	min-height: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.sub-nav-padding {
+	@media (min-width: 768px) and (max-width: 991px) {
+		margin-left: 75px;
+	}
+	@media (min-width: 992px) and (max-width: 1200px) {
+		margin-left: 150px;
+	}
+}
+
+input {
+	.grey-round-border;
+	background-color: @white;
+}
+
+.submit-btn, input[type='submit'] {
+	width: 100%;
+	background-color: @blue2;
+	border: 1px solid @blue2;
+	border-radius: 3px;
+	color: @white;
+	padding: 10px;
+
+	&:hover {
+		color: @black;
+		background-color: @blue4;
+		border: 1px solid @blue4;
+	}
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #CCC inset;
+}
+
+/***** Common Element Styling *****/
+
+h1, h2, h3, h4, h5, h6 { color: @white; text-align: center;}
+
+h1 { font-weight: bolder; margin-top: 80px; }
+
+h3 a {color: @deep-red; }
+
+h2 a:visited { color: #B22222; }
+
+a { color: @black; text-decoration: underline; }
+
+a:focus { outline: none;}
+
+a:hover { color: @blue3; }
+
+a.active { text-decoration: underline; }
+
+p {
+	line-height: 1.6;
+	text-align: justify;
+}
+
+.textinput { margin-bottom: 5px; }
+
+.textarea { margin-bottom: 5px; }
+
+.btn.blue {
+	color: @white;
+	background-color: @blue2;
+	&:hover {
+		color: @black;
+		background-color: @blue4
+	}
+}
+
+/***** Dashboard *****/
+
+.dashboard-btn {
+	.grey-round-border;
+	height: 80px;
+	font-size: 16px;
+	color: @white;
+	background-color: @blue1;
+	margin-left: 0;
+	text-align: center;
+	padding-left: 10px;
+	@media(min-width:992px) {
+		text-align: left;
+	}
+	img {
+		height: 60px;
+		width: 60px;
+		margin: 10px;
+		@media(min-width: 992px) {
+			position: absolute;
+			right: 30px;
+		}
+	}
+}
+
+.dashboard-btn.workout-summary {
+	height: 150px;
+	@media(min-width: 992px) {
+		height: 80px;
+	}
+}
+
+.dashboard-stat {
+	font-size: 30px;
+	display: block;
+	font-weight: 600;
+}
+
+#dashboard-home, #dashboard-progress { margin-top: 80px; }
+
+.dashboard-workout a { text-decoration: underline; }
+
+.dashboard-workout { background-color: @white; }
+
+#dashboard-feed {
+
+	.grey-round-border;
+	background-color: @white;
+	color: @black;
+
+	a {
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: @blue2;
+		text-decoration: underline;
+	}
+
+	img {
+		height: 40px;
+		width: 40px;
+		display: inline;
+		margin-right: 10px;
+		bottom: 25px;
+		@media(min-width: 768px) {
+			position: absolute;
+		}
+	}
+
+	img.single-line {
+		bottom: 10px;
+	}
+
+	img.static {
+		position: static;
+	}
+
+	.activity, .dashboard-workout {
+		padding: 20px;
+		border-bottom: 1px solid @medium-grey;
+		position: relative;
+		text-align: center;
+		@media(min-width:992px){
+			text-align: left;
+		}
+	}
+
+	.activity-link {
+		padding-left: 50px;
+	}
+
+	.status-message {
+		display: block;
+		@media(min-width:736px){
+			padding-left: 50px;
+		}
+	}
+}
+
+.feed-header {
+	background-color: @blue1;
+	color: @white;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid @blue1;
+	.top-border-radius;
+}
+
+#friend-recommendations {
+	padding-left: 0;
+	.grey-round-border;
+	background-color: @white;
+	padding-right: 0;
+
+	img {
+		height: 60px;
+		width: 60px;
+	}
+
+	.feed-header {
+		margin-bottom: 10px;
+	}
+}
+
+#friends h3 {
+	color: @black;
+}
+
+#dashboard-friends {
+	background-color: @white;
+	.grey-round-border();
+	height: 300px;
+
+	.feed-header {
+		margin-bottom: 10px;
+	}
+}
+
+#calories-consumed-today {
+	height: 200px;
+	.grey-round-border;
+	font-size: 16px;
+	color: @white;
+	background-color: #703030;
+	margin-left: 0;
+}
+
+#calories-remaining-today { height: 200px; }
+
+.login-field, .bodyweight-field {
+	padding: 10px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+#calories-week {
+	height: 200px;
+	.grey-round-border;
+}
+
+#last-workout-muscle-groups {
+	height: 200px;
+	background-color: @white;
+}
+
+#bw-chart {
+	height: 200px;
+}
+
+#record_workout { margin-top: 10px; }
+
+/***** HighChart *****/
+
+.chart {
+	background-color: @light-grey;
+	margin-bottom: 10px;
+}
+
+.default-explanation {
+	background-color: @blue4;
+	color: @black;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px;
+}
+
+/***** Navigation ribbon *****/
+
+nav li a { color: @white; }
+
+.navbar-buffer { padding-top: 80px; }
+
+.navbar {
+	border: none;
+	border-radius: 0;
+	a {
+		text-decoration: none;
+	}
+}
+
+.navbar-brand { font-size: 20px; }
+
+.register { cursor: pointer; }
+
+.navbar-inverse .navbar-brand {
+	color: @blue3;
+	font-weight: 700;
+}
+
+.dropdown-menu {
+	background-color: @dark-grey;
+	color: @white;
+	border: none;
+}
+
+.dropdown-menu > li > a {
+	color: #999;
+}
+
+.dropdown-menu > li > a:hover {
+	color: @white;
+	background-color: @dark-grey;
+}
+
+@media (max-width: 768px) {
+	.navbar-collapse .left-border {
+		.navbar-hover-left;
+	}
+}
+
+.side-nav li:hover {
+	.navbar-hover-left;
+}
+
+.side-nav .left-border {
+	.navbar-hover-left;
+}
+
+.navbar-hover-left {
+	border-left: 5px solid @blue2;
+	background-color: @light-black;
+	-webkit-transition: border 0.2s ease;
+	       -moz-transition: border 0.2s ease;
+	         -o-transition: border 0.2s ease;
+	        -ms-transition: border 0.2s ease;
+	            transition: border 0.2s ease;
+	-webkit-transition: background-color 0.2s ease;
+	       -moz-transition: background-color 0.2s ease;
+	         -o-transition: background-color 0.2s ease;
+	        -ms-transition: background-color 0.2s ease;
+	            transition: background-color 0.2s ease;
+}
+
+@media (min-width: 768px) {
+	.side-nav {
+		margin-left: -75px;
+		left: 75px;
+		width: 75px;
+		@media(min-width: 992px) {
+			margin-left: -150px;
+			left: 150px;
+			width: 150px;
+		}
+		position: fixed;
+		top: 50px;
+		height: 100%;
+		border-radius: 0;
+		border: none;
+		background-color: @dark-grey;
+		overflow-y: auto;
+	}
+}
+
+.side-nav>li>a {
+	width: 75px;
+	text-align: center;
+	@media(min-width: 992px){
+		width: 150px;
+		text-align: left;
+	}
+}
+
+/***** User profile *****/
+
+.user-img {
+	height: 100px;
+	width: 100px;
+}
+
+.profile-grid {
+	padding: 20px 0;
+	background-color: @blue2;
+	color: @white;
+	text-align: center;
+	border-radius: 3px;
+	min-height: 400px;
+	@media (min-width: 768px) {
+		min-height: 230px;
+	}
+}
+
+.profile-friend-img {
+	height: 60px;
+	width: 60px;
+	@media(min-width: 768px) {
+		height: 70px;
+		width: 70px;
+	}
+}
+
+.user-gravatar {
+	height: 25px;
+	width: 25px;
+	border-radius: 2px;
+}
+
+#profile-gravatar {
+	height: 125px;
+	width: 125px;
+	padding: 10px;
+	@media(min-width: 992px){
+		height: 150px;
+		width: 150px;
+	}
+}
+
+.username {
+	font-weight: 700;
+	font-size: 18px;
+	padding-top: 20px;
+	@media(min-width: 768px){
+		padding-top: 40px;
+	}
+}
+
+#add-friend { margin-top: 5px; }
+
+#settings { 
+	color: @black;
+
+	input[type='submit'] {
+		@media(min-width:768px){
+			width: 66.6%;
+		}
+
+		&:hover {
+			background-color: @blue2;
+		}
+	}
+
+}
+
+/***** Authentication *****/
+
+.signup, #nav-login, #logout_button {
+	cursor: pointer;
+}
+
+#login, #signup {
+	background-color: @blue1;
+	padding-bottom: 40px;
+	a {
+		color: @blue3;
+		&:hover {
+			color: @blue4;
+		}
+	}
+}
+
+#login-form input, #signup-form input {
+	background-color: @medium-grey;
+	color: @black;
+}
+
+#login-form input, #registration-dialog input, #login-dialog input {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+#login-form input[type='submit'], #signup-form input[type='submit'] {
+	width: 100%;
+	color: @white;
+	background-color: @blue2;
+	border: 1px solid @blue2;
+	@media (min-width:798px) {
+		width: 60%;
+	}
+
+	&:hover {
+		background-color: @blue4;
+		color: @black;
+		border: 1px solid @blue4;
+	}
+}
+
+#login-error {
+	text-align: center;
+	color: @warning-red;
+}
+
+#login-dialog, #registration-dialog, #meal_record_dialog,
+#bodyweight_dialog, #exercise-dialog, #edit_workout_dialog,
+#edit-exercise-dialog, #create_group_dialog {
+
+	background-color: @blue1;
+
+	h2 { margin: 0 0 5px; }
+
+	p { color: @white; }
+
+	a {
+		color: @blue3;
+		&:hover {
+			color: @blue4;
+		}
+	}
+
+	input, select, textarea {
+		width: 100%;
+		margin: 10px 0;
+		background-color: @medium-grey;
+	}
+
+	input[type=submit] {
+		border: @blue2;
+		background-color: @blue2;
+		color: @white;
+
+		&:hover {
+			color: @black;
+			background-color: @blue4;
+		}
+	}
+}
+
+/***** Groups *****/
+
+.group-img {
+	height: 60px;
+	width: 60px;
+	margin-top: 10px;
+	@media(min-width: 767px){
+		height: 70px;
+		width: 70px;
+	}
+	@media (min-width: 992px){
+		height: 80px;
+		width: 80px;
+	}
+	@media (min-width: 1200px) {
+		height: 90px;
+		width: 90px;
+	}
+}
+
+#group-members {
+	list-style: none;
+	display: inline-block;
+}
+
+#group-wallpaper { .banner-wallpaper('ali.jpg') }
+
+.group-banner { height: 200px; }
+
+/***** Workout *****/
+
+#record_workout {
+	background-color: #5CB85C;
+	border: 1px solid @success-green;
+	border-radius: 5px;
+	color: @white;
+	padding: 10px;
+	text-transform: uppercase;
+}
+
+#record-workout {
+	background-color: @blue1;
+	padding-bottom: 40px;
+
+	textarea {
+		background-color: @medium-grey;
+	}
+
+	input {
+		background-color: @medium-grey;
+		width: 100%;
+		@media (min-width:798px) {
+			width: 30%;
+			margin-left: 20%;
+		}
+	}
+
+	input[type='submit'] {
+		width: 100%;
+		background-color: @blue3;
+		border: 1px solid @blue3;
+		@media (min-width:798px) {
+			width: 60%;
+			margin-left: 20%;
+		}
+
+		&:hover {
+			background-color: @blue2;
+			border: 1px solid @blue2;
+		}
+	}
+}
+
+#record-workout .workout-meta, #record-workout select {
+	width: 100%;
+	@media (min-width:798px) {
+		width: 60%;
+		margin-left: 20%;
+	}
+}
+
+#record-workout input.reps {
+	@media (min-width:798px) {
+		margin-left: 0;
+	}
+}
+
+#record-workout input.reps, #record-workout input.weight {
+	color: @black;
+	width: 50%;
+	border-radius: 0;
+	@media (min-width:798px) {
+		width: 30%;
+	}
+}
+
+.workout-meta { 
+	.grey-round-border();
+	margin-top: 10px;
+	padding: 10px;
+}
+
+.workout-set {
+	display: block;
+	padding-left: 40px;
+	text-align: left;
+}
+
+#week-rep-ranges, #rep-ranges, #week-muscle-groups, #muscle-groups, #sets {
+	height: 200px;
+	background-color: @white;
+}
+
+.workout-date { font-size: 12px; }
+
+.workout-exercise:not(.hidden) { margin-top: 10px; }
+
+#workout-form { color: @black; }
+
+#workout-form input:focus, #workout-form textarea:focus {
+	background-color: @white;
+}
+
+#workout-search , #exercise-search, #user-search {
+	select {
+		width: 100%;
+		color: @black;
+		font-weight: normal;
+		width: 100%;
+		padding: 5px;
+	}
+}
+
+.date-range-filter {
+	color: @black;
+	position: absolute;
+	top: 0;
+	right: 15px;
+	z-index: 99;
+}
+
+#workout-counts img {
+	height: 50px;
+	width: 50px;
+	margin: 5px;
+}
+
+#workout-counts .profile {
+	padding: 20px;
+}
+
+.workout-count {
+	text-align: right;
+	@media (min-width:798px) {
+		margin-left: 20px
+	}
+}
+
+#workout-comments {
+	background-color: @white;
+	color: @black;
+
+	p {
+		padding: 20px;
+		text-align: center;
+	}
+
+	@media(min-width:798px){
+		p {
+			text-align: left;
+		}
+	}
+}
+
+/***** Exercise *****/
+
+#exercise-search {
+	select {
+		margin: 0;
+	}
+	input[type=submit] {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+}
+
+/****** Homepage *****/
+
+#welcome-message {
+	background-color: @blue3;
+	padding: 80px;
+
+	span {
+		font-size: 30px;
+		font-weight: 700;
+		color: @white;
+		display: block;
+		margin-bottom: 20px;
+	}
+
+	a {
+		color: @white;
+		text-decoration: underline;
+		margin: 0 10px;
+	}
+}
+
+#welcome-wallpaper {
+	background: url('@{static-images}arnold.jpg');
+	background-attachment: fixed;
+	height: 300px;
+	@media(min-width:768px) {
+		height: 400px;
+	}
+}
+
+/***** About *****/
+
+#about {
+	h2 {
+		font-weight: 700px;
+	}
+	.container {
+		padding: 40px 0;
+	}
+}
+
+#about-wallpaper {
+	background: url('@{static-images}squat.jpg');
+	height: 300px;
+	background-attachment: fixed;
+}
+
+#about-objectives {
+	background-color: @blue3;
+	color: @white;
+}
+
+#about-stack {
+	color: @black;
+
+	h2 {
+		color: @black;
+	}
+
+	a {
+		color: @black;
+
+		&:hover {
+			color: @blue3;
+		}
+	}
+}
+
+#about-involved { background-color: @blue1; }
+
+/***** Over-rides Bootstrap *****/
+
+.container {
+	@media(min-width:1500px){
+		width: 80% !important;
+	}
+}
+
+.btn-lg {
+	border-radius: 3px;
+}
+
+/**** Over-rides jQuery UI *****/
+
+.ui-widget-header {
+	background: @blue1 !important;
+	color: @white !important;
+	border: @blue1 !important;
+}
+
+.ui-widget-content {
+	border: none !important;
+}
+
+.ui-corner {
+	border-radius: 0;
+}
+
+.ui-corner-all {
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}
+
+.ui-dialog {
+    font-size: 14px !important;
+    background-color: @blue1 !important;
+    padding: 0 !important;
+}

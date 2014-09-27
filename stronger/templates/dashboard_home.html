@@ -1,0 +1,111 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+    <script type="text/javascript" src="/static/stronger/js/dashboard_home.js"></script>
+    <script type="text/javascript">
+      data_from_django = {{ js_data|safe }};
+    </script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard
+{% endblock %}
+
+{% block message %}
+  <div id="dashboard-home" class="container sub-nav-padding">
+    <div class="row">
+      <div class="col-sm-6 col-md-3">
+        <div class="dashboard-btn col-xs-12">
+          <span class="dashboard-stat">{{ user.count_workouts }}</span>
+          Workouts
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="dashboard-btn col-xs-12">
+          <span class="dashboard-stat">{{ user.count_meals }}</span>
+          Meals
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="dashboard-btn col-xs-12">
+          <span class="dashboard-stat">{{ user.count_photos }}</span>
+          Photos
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="dashboard-btn col-xs-12">
+          <span class="dashboard-stat">{{ user.count_followers }}</span>
+          Followers
+        </div>
+      </div>
+    </div>
+
+    <div class="row top-buffer bottom-buffer">
+      <div class="col-xs-12 col-sm-6">
+        <div id="dashboard-feed">
+          <div class="feed-header">
+            Activity Feed
+          </div>
+          {% for activity in news %}
+          <div class="activity">
+              <a href="{{ activity.user.get_absolute_url }}">
+                <img class="img-circle img-responsive"
+                     src="{{ activity.user.gravatar }}"
+                     title="View {{ user.username }} profile" /img>
+              </a>
+              <a class="activity-link" href="/users/{{ activity.user }}">
+                {{ activity.user }}
+              </a>
+                logged a <a href="{{ activity.get_absolute_url }}">
+                {{ activity.newsfeed_category }} on 
+                {{ activity.date|date:"d-m-Y" }}</a>
+              <a class="status-message" href="{{ activity.get_absolute_url }}">
+                <span>{{ activity.newsfeed_message }}</span>
+              </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="big-four">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row top-buffer">
+          <div class="col-xs-12">
+            <div id="calories-week">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 top-buffer">
+            <div id="dashboard-friends">
+            <div class="feed-header">
+              Recent Followers
+            </div>
+            {% for friend in friends %}
+              <div class="col-xs-3"> 
+                <a href="{{ friend.get_absolute_url }}"
+                   title="View {{friend.username}}'s profile">
+                  <img class="profile-friend-img center-block img-circle"
+                       src="{{ friend.gravatar }}"/img>
+                </a>
+                <a href="/users/{{friend.username}}" 
+                   class="hidden-xs hidden-sm block text-center">
+                   {{ friend.username }}
+                 </a>
+              </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div> <!--dashboard-home -->
+
+{% endblock %}

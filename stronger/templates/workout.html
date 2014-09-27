@@ -1,0 +1,136 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+    <script type="text/javascript" src="/static/stronger/js/workout.js"></script>
+    <script type="text/javascript">
+      data_from_django = {{ js_data|safe }};
+    </script>
+
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard | Workouts
+{% endblock %}
+
+{% block message %}
+  <div id="workout" class="container navbar-buffer sub-nav-padding">
+    <div class="row">
+      <div class="col-md-4 col-md-push-8 col-lg-3 col-lg-push-9">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="dashboard-btn workout-summary">
+              <a href="{{ workout.user.get_absolute_url }}">
+                <img class="img-circle" src="{{ workout.user.gravatar }}"
+                     title="View {{ w.user.gravatar }} profile" /img>
+              </a>
+              <span class="dashboard-stat">{{ workout.date }}</span>
+              {{ workout.description }}
+            </div>
+          </div>
+          <div class="col-xs-6 no-right-padding">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">
+                {{ workout.get_exercises|length }}
+              </span>
+              Exercises
+            </div>
+          </div>
+          <div class="col-xs-6 no-left-padding">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">
+                {{ workout.get_sets|length }}
+              </span>
+              Sets
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-12 top-buffer">
+            <a id="edit-workout" class="btn blue btn-lg full-width">
+              Edit Workout
+            </a>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-12 top-buffer">
+            <a id="delete-workout" class="btn blue btn-lg full-width">
+              Delete Workout
+            </a>
+          </div>
+          <div class="col-xs-12 top-buffer">
+            <div id="workout-comments">
+              <div class="feed-header">
+                Workout Notes
+              </div>
+              <p>{{ workout.comments }}</p>
+            </div>
+          </div>
+          <div class="col-xs-12 bottom-buffer hidden-xs">
+            <div id="dashboard-feed" class="top-buffer bottom-buffer">
+              <div class="feed-header">
+                Other Workouts By {{ workout_user }}
+              </div>
+              {% for workout in user_workouts %}
+                <div class="dashboard-workout col-xs-12">
+                  <a class="profile" href="{{ workout.user.get_absolute_url }}">
+                    <img class="img-circle static"
+                         src="{{ workout.user.gravatar }}"
+                         title="View {{ workout.user.username }} profile" /img>
+                  </a>
+                  <a href="{{ workout.get_absolute_url }}">{{ workout.description }}
+                    <span class="workout-date"> - {{ workout.date }}</span>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3">
+        <div class="row">
+          <div class="col-xs-12">
+           <div id="sets" class="highchart"></div> 
+          </div>
+          <div class="col-xs-12 col-sm-6 top-buffer">
+            <div id="rep-ranges" class="highchart"></div>
+          </div>
+          <div class="col-xs-12 col-sm-6 top-buffer">
+            <div id="muscle-groups" class="highchart"></div>
+          </div>
+          <div class="col-xs-12 col-sm-12 top-buffer">
+            <div id="rep-ranges-per-muscle" class="highchart"></div>
+          </div>
+          <div class="col-xs-12 top-buffer bottom-buffer">
+            <div id="dashboard-feed">
+              <div class="feed-header">
+                Workout Details
+              </div>
+              {% for set in workout.get_sets %}
+                <a href="{{ set.exercise.get_absolute_url }}"
+                   class="workout-set">
+                   {{ set }}
+                 </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="edit_workout_dialog" class="hidden" method="post" action="" >{% csrf_token %}
+    {{ edit_workout_form.date }}
+    {{ edit_workout_form.description }}
+    {{ edit_workout_form.comments }}
+    <input class="col-xs-12 submit-btn" type="submit" value="Save Changes"/>
+  </form>
+  <form id="delete-workout-dialog" class="hidden" method="post" action="" >{% csrf_token %}
+    <p>
+      Deleting a workout is an irreversible action.
+      Please confirm to continue.
+    </p>
+    <button id="confirm-workout-delete" class="btn btn-lg btn-success">
+      Confirm
+    </button>
+    <button id="cancel-workout-delete" class="btn btn-lg btn-primary pull-right">
+      Cancel
+    </button>
+  </form>
+
+{% endblock %}

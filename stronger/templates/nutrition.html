@@ -1,0 +1,175 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+  <script type="text/javascript" src="/static/stronger/js/nutrition.js"></script>
+  <script type="text/javascript" src="/static/stronger/js/libs/modernizr.custom.32481.js"></script>
+
+  <script type="text/javascript">
+  // pass some data to our JS
+  data_from_django = {{ js_data|safe }};
+
+  $(function () {
+    yepnope({ /* included with Modernizr */
+      test : Modernizr.inputtypes.date,
+      nope : {
+        'css': '/static/stronger/css/jquery-ui-1.10.3.custom.min.css',
+        'js': '/static/stronger/js/libs/jquery-ui-1.10.3.datepicker.min.js'
+      },
+      callback: { // executed once files are loaded
+        'js': function() { $('input[type=date]').datepicker({dateFormat: "yy-mm-dd"}); } // default HTML5 format
+      }
+    });
+
+  });
+  </script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard | Nutrition
+{% endblock %}
+
+{% block message %}
+  <div id="dashboard-progress" class="container sub-nav-padding">
+    <div class="row">
+      <div class="col-md-4 col-md-push-8 col-lg-3 col-lg-push-9">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">5</span>
+              Meals
+            </div>
+          </div>
+          <div class="col-xs-12 top-buffer">
+            <a id="log-nutrition" class="btn btn-lg blue full-width">
+              Record Nutrition
+            </a>
+          </div>
+          <div class="col-xs-12 top-buffer">
+            <a id="log-bodyweight" class="btn btn-lg blue full-width">
+              Record Bodyweight
+            </a>
+          </div>
+          <div class="col-xs-12 top-buffer bottom-buffer">
+            <div id="dashboard-feed">
+              <div class="feed-header">
+                Your Recent Nutrition
+              </div>
+              {% for dn in dn_history %}
+                <div class="dashboard-workout activity">
+                  <a href="{{ dn.user.get_absolute_url }}">
+                    <img class="img-circle single-line"
+                         src="{{ dn.user.gravatar }}"
+                         title="View {{ dn.user.username }} profile" /img>
+                  </a>
+                  <a class="status-message" href="{{ dn.get_absolute_url }}">
+                    {{ dn.date }}
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4">
+            <div id="macros" class="highchart">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-8">
+            <div id="macro-breakdown" class="highchart">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div>
+            <select id="filter-calorie-dates" class="date-range-filter"
+                    name="select">
+              <option value="7">7 days</option>
+              <option value="14" selected>14 days</option>
+              <option value="31">1 month</option>
+              <option value="365">1 year</option>
+            </select>
+          </div>
+          <div class="col-xs-12 top-buffer">
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="dashboard-btn">
+                  <span class="dashboard-stat">{{ average_workout_kcal }}</span>
+                  Average Workout Calories
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="dashboard-btn">
+                  <span class="dashboard-stat">{{ average_rest_kcal }}</span>
+                  Average Rest Day Calories
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 top-buffer">
+            <div id="calorie-tracker" class="highchart">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div>
+          </div>
+          <div class="col-xs-12 top-buffer">
+            <div id="bw-chart" class="highchart">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div> 
+          </div>
+            <div class="col-xs-12 col-sm-6 top-buffer">
+              <div id="workout-counts" class="white">
+                <div class="feed-header">
+                  Most Nutrition Recorded
+                </div>
+                {% for n in most_nutrition %}
+                <div>
+                  <a class="profile" href="{{ n.0.get_absolute_url }}">
+                    <img class="img-circle" src="{{ n.0.gravatar }}"
+                         title="View {{ n.0.username }} profile" /img>
+                  </a>
+                  <a class="workout-count"
+                     href="{{ n.0.get_absolute_url }}/nutrition">
+                     {{ n.1 }} nutrition
+                   </a>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 top-buffer">
+              <div id="workout-counts" class="white">
+                <div class="feed-header">
+                  Friends Recent Nutrition
+                </div>
+                {% for n in friend_nutrition_history %}
+                  <div class="dashboard-workout col-xs-12">
+                    <a class="profile" href="{{ n.user.get_absolute_url }}">
+                      <img class="img-circle" src="{{ n.user.gravatar }}"
+                           title="View {{ n.user.username }} profile" /img>
+                    </a>
+                    <a href="{{ n.get_absolute_url }}">{{ n.description }}
+                      <span class="workout-date"> - {{ n.date }}</span>
+                    </a>
+                  </div>
+                {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+	    </div>
+    </div>
+  </div>
+
+  <form id="meal_record_dialog" class="hidden" method="post" action="">{% csrf_token %}
+    {{ meal_record_form.date }}
+    {{ meal_record_form.calories }}
+    {{ meal_record_form.protein }}
+    {{ meal_record_form.carbs }}
+    {{ meal_record_form.fats }}
+    <input class="submit-btn"type="submit" value="Save" />
+  </form>
+  <form id="bodyweight_dialog" class="hidden" method="post" action="">{% csrf_token %}
+    {{ bodyweight_form.bodyweight }}
+    {{ bodyweight_form.date }}
+    <input id="bodyweight_submit" class="submit-btn" type="submit" value="Record Weight"/>
+  </form>
+{% endblock %}

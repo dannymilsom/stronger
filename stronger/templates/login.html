@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+STRONGER | Login
+{% endblock %}
+
+{% block message %}
+  <div id="login">
+    <div class="container navbar-buffer">
+      <div class="row">
+          <div class="col-xs-12">
+            <h2>LOGIN</h2>
+            <p class="text-center">Not registered yet?
+              <a href="/signup">Sign up now</a>
+            </p>
+            <form id="login-form" class="col-sm-offset-3 col-sm-6"
+                  action="" method="post">{% csrf_token %}
+              {{ login_form.username }}
+              {{ login_form.password }}
+              <input class="wide-form-field btn" type="submit" value"Log In">
+            </form>
+            {% if authentication_error %}
+              <p id="login-error">
+                Unable to authenticate using those credentials.
+                Please try again.
+              </p>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

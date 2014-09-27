@@ -1,0 +1,51 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+    <script type="text/javascript" src="/static/stronger/js/groups.js"></script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard | {{ group }}
+{% endblock %}
+
+{% block message %}
+  <div id="dashboard-progress" class="container">
+    <div class="row">
+    	<div class="col-xs-8">
+        <div class="row">
+          <div class="col-xs-4">
+              <img class="img-circle img-responsive white-grid-div" src="{{ group.background_url }}" title="{{group}}"/>
+          </div>
+          <div class="col-xs-8 white-grid-div">
+              <p>{{ group.about }}</p>
+          </div>
+        </div>
+	    </div>
+      <div class="col-xs-4">
+        <div class="col-xs-12 no-left-padding no-right-padding">
+          <div class="dashboard-btn col-xs-12"><span id="group-name" class="dashboard-stat">{{ group.name }}</span> </div>
+        </div>
+        <div class="col-xs-12 no-left-padding no-right-padding top-buffer">
+          <a id="join-group" class="btn btn-lg btn-info full-width">Join Group</a>
+        </div>
+        <div class="col-xs-12 no-left-padding no-right-padding top-buffer">
+          <a id="edit-group" class="btn btn-lg btn-warning full-width">Edit Group</a>
+        </div>
+        <div id="dashboard-feed" class="col-xs-12 top-buffer">
+          {% for user in group.get_members %}
+            <div class="dashboard-workout col-xs-12">
+              <a href="/dashboard/user/{{ user}}">{{ user }}</a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="edit_group_dialog" class="hidden" method="post" action="">{% csrf_token %}
+    {{ group_form.name }}
+    {{ group_form.about }}
+    <input class="submit-btn"type="submit" value="Save Changes" />
+  </form>
+
+{% endblock %}

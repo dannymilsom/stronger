@@ -1,0 +1,116 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+  <script type="text/javascript" src="/static/stronger/js/exercises.js"></script>
+  <script type="text/javascript">
+    // pass some data to our JS
+    data_from_django = {{ js_data|safe }};
+    </script>
+    <script type="text/javascript">
+    $(function () {
+      // make each exercise input select2 to support filtering etc
+      $("#s2id_primary_muscle").select2({ placeholder: 'Primary Muscle'});
+      $("#s2id_secondary_muscles").select2({ placeholder: 'Secondary Muscle'});
+    });
+  </script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard | Exercises
+{% endblock %}
+
+{% block message %}
+  <div id="exercises" class="container navbar-buffer sub-nav-padding">
+    <div class="row">
+      <div class="col-md-4 col-md-push-8 col-lg-3 col-lg-push-9">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">{{ exercise_count }}</span> Exercises
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <a id="log-exercise" class="btn btn-lg blue full-width top-buffer">
+              Add Exercise
+            </a>
+          </div>
+          <div class="col-xs-12">
+            {{ popular_exercises }}
+            <form id="exercise-search" class="top-buffer" method="get" action="" >{% csrf_token %}
+              {{ exercise_search.name }}
+              <input class="col-xs-12 btn btn-lg btn-info" type="submit" value="Find Exercise"/>
+            </form>
+          </div>
+          <div class="col-xs-12 bottom-buffer">
+            <div id="dashboard-feed" class="top-buffer">
+              <div class="feed-header">
+                New Exercises
+              </div>
+              {% for exercise in recently_added %}
+                <div class="dashboard-workout col-xs-12">
+                  <a href="/exercises/{{ exercise.clean_name }}">{{ exercise.name }}
+                    <span class="workout-date"> - {{ exercise.added_at }}</span>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3">
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="big-three" class="highchart2"></div>
+          </div>
+          <div class="col-xs-12">
+            <div id="popular-exercises" class="highchart top-buffer"></div>
+          </div>
+          <div class="col-xs-12 col-sm-6 top-buffer">
+            <div id="workout-counts" class="white">
+              <div class="feed-header">
+                Biggest Site Totals
+              </div>
+              {% for total in biggest_totals %}
+              <div>
+                <a class="profile" href="{{ total.0.get_absolute_url }}">
+                  <img class="img-circle" src="{{ total.0.gravatar }}"
+                       title="View {{ total.0.username }} profile" /img>
+                </a>
+                <a class="workout-count" href="{{ total.0.get_absolute_url }}/records"> 
+                  {{ total.1 }} kg Total ({{ total.2}} / {{ total.3 }} / {{ total.4 }})
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 top-buffer">
+            <div id="workout-counts" class="white">
+              <div class="feed-header">
+                Biggest Friend Totals
+              </div>
+              {% for total in biggest_totals %}
+              <div>
+                <a class="profile" href="{{ total.0.get_absolute_url }}">
+                  <img class="img-circle" src="{{ total.0.gravatar }}"
+                       title="View {{ total.0.username }} profile" /img>
+                </a>
+                <a class="workout-count" href="{{ total.0.get_absolute_url }}"> 
+                  {{ total.1 }} kg Total ({{ total.2}} / {{ total.3 }} / {{ total.4 }})
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="exercise-dialog" class="hidden dialog" method="post" action="">
+    {% csrf_token %}
+    {{ exercise_form.name }}
+    {{ exercise_form.primary_muscle }}
+    {{ exercise_form.secondary_muscles }}
+    <input class="col-xs-12 btn btn-success" type="submit" value="Add Exercise"/>
+  </form>
+{% endblock %}

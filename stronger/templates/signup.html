@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+STRONGER | Sign Up
+{% endblock %}
+
+{% block message %}
+  <div id="signup">
+    <div class="container navbar-buffer">
+      <div class="row">
+          <div class="col-xs-12">
+            <h2>SIGN UP</h2>
+            <p class="text-center">Already registered?
+              <a href="/login">Login now</a>
+            </p>
+            <form id="signup-form" class="col-sm-offset-3 col-sm-6"
+                  action="" method="post">{% csrf_token %}
+              {{ signup_form.username }}
+              {{ signup_form.email }}
+              {{ signup_form.password }}
+              <input class="wide-form-field btn" type="submit" value"Sign Up">
+            </form>
+            {% if signup_error %}
+              <p id="login-error">
+                Unable to create a new account using those credentials.
+                Please try again.
+              </p>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "dashboard.html" %}
+
+{% block title %}
+STRONGER | Dashboard | Friends
+{% endblock %}
+
+{% block message %}
+  <div id="friends" class="container navbar-buffer sub-nav-padding">
+    <div class="row">
+      <div class="col-md-8 col-lg-9">
+        <div class="row">
+          <div id="following" class="col-xs-12">
+            <div class="feed-header">
+              Following ({{ user.count_following }})
+            </div>
+            {% for friend in following %}
+            <div class="col-xs-6 col-sm-4 col-md-3 text-center white">
+              <a href="{{ friend.get_absolute_url }}">
+                <img class="img-circle group-img center-block"
+                     src="{{ friend.friend.gravatar }}"
+                     title="{{ friend.friend.username }}"/>
+              </a>
+              <a href="{{ friend.friend.get_absolute_url }}"
+                 class="block text-center">{{ friend.friend.username }}</a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="followers" class="top-buffer white">
+              <div class="feed-header">
+                Followers ({{ user.count_followers }})
+              </div>
+              {% for friend in followers %}
+              <div class="col-xs-6 col-sm-4 col-md-3 text-center white">
+                <a href="{{ friend.get_absolute_url }}">
+                  <img class="img-circle group-img center-block"
+                       src="{{ friend.user.gravatar }}"
+                       title="{{ friend.user.username }}"/>
+                </a>
+                <a href="{{ friend.user.get_absolute_url }}"
+                   class="block text-center">
+                   {{ friend.user.username }}
+                 </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-3">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">{{ user_count }}</span>
+              Registered Users
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <div id="friend-recommendations" class="top-buffer">
+              <div class="feed-header">
+                Recently Joined
+              </div>
+              {% for user in new_users %}
+                <div class="col-xs-6 white"> 
+                  <a href="{{ user.get_absolute_url }}">
+                    <img class="user-img center-block img-circle"
+                         src="{{ user.gravatar }}"/img>
+                  </a>
+                  <a href="{{ user.get_absolute_url }}"
+                     class="block text-center">
+                     {{ user.username }}
+                   </a>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+  	    </div>
+      </div>
+    </div>
+
+{% endblock %}

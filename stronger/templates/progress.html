@@ -1,0 +1,31 @@
+{% extends "userprofile.html" %}
+
+{% block title %}
+STRONGER | Progress
+{% endblock %}
+
+{% block profile-content %}
+  <div id="user-workout-wallpaper">
+  </div>
+  <div class="container">
+    <h1>Progress for {{ exercise }}</h1>
+    <form id="exercise-progress-form" method="post" action="/user/{{ user }}/progress/" method="post">{% csrf_token %}
+     	{{ exercise_form }}
+        <input id="exercise-progress-submit" type="submit" value="View progress"/>
+    </form>
+    <div class="row">
+		{% for w in workouts %}
+		<div class="col-xs-4 exercise-progress">
+			<a href="/user/{{ user }}/workout/{{ w.id }}">{{ w.date }}</a>
+			<ul>
+			{% for s in w.get_sets %}
+				{% if s.exercise.clean_name == exercise %}
+					<li>{{ s }}</li>
+				{% endif %}
+			{% endfor %}
+			</ul>
+		</div>
+		{% endfor %}
+    </div>
+  </div>
+{% endblock %}

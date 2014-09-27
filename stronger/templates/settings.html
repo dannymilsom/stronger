@@ -1,0 +1,30 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard | Settings
+{% endblock %}
+
+{% block message %}
+  <div id="settings">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>Settings</h1>
+          <form id="user-settings-form" method="post" action="" >
+            {% csrf_token %}
+            {{ user_form.about }}
+            {{ user_form.gym }}
+            {{ user_form.goals }}
+            {{ user_form.gravatar }}
+            <input class="col-xs-12 col-sm-offset-2 col-sm-8 btn btn-success" type="submit" value="Save Changes"/>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

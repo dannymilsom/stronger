@@ -1,0 +1,130 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+    <script type="text/javascript" src="/static/stronger/js/workouts.js"></script>
+    <script type="text/javascript" src="/static/stronger/js/libs/modernizr.custom.32481.js"></script>
+
+    <script type="text/javascript">
+    // pass some data to our JS
+    data_from_django = {{ js_data|safe }};
+
+    $(function () {
+      yepnope({ /* included with Modernizr */
+        test : Modernizr.inputtypes.date,
+        nope : {
+          'css': '/static/stronger/css/jquery-ui-1.10.3.custom.min.css',
+          'js': '/static/stronger/js/libs/jquery-ui-1.10.3.datepicker.min.js'
+        },
+        callback: { // executed once files are loaded
+          'js': function() { $('input[type=date]').datepicker({dateFormat: "yy-mm-dd"}); } // default HTML5 format
+        }
+      });
+
+    });
+    </script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard | Workouts
+{% endblock %}
+
+{% block message %}
+  <div id="workouts" class="container navbar-buffer sub-nav-padding">
+    <div class="row">
+      <div class="col-md-4 col-md-push-8 col-lg-3 col-lg-push-9">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="dashboard-btn ">
+              <span class="dashboard-stat">{{ user.count_workouts }}</span>
+              Workouts
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <a id="log-workout" class="btn btn-lg full-width blue top-buffer"
+               href="{% url 'record_workout' %}">
+               Record Workout
+             </a>
+          </div>
+          <div class="col-xs-12">
+            <form id="workout-search" class="top-buffer" method="get" action="" >{% csrf_token %}
+              {{ workout_search.name }}
+              <input class="col-xs-12 btn btn-lg btn-info" type="submit" value="Find Workout"/>
+            </form>
+          </div>
+          <div class="col-xs-12 bottom-buffer">
+            <div id="dashboard-feed" class="top-buffer bottom-buffer">
+              <div class="feed-header">
+                Your Recent Workouts
+              </div>
+              {% for workout in workout_history %}
+                <div class="dashboard-workout col-xs-12">
+                  <a href="{{ workout.get_absolute_url }}">{{ workout.description }}
+                    <span class="workout-date"> - {{ workout.date }}</span>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <div id="week-rep-ranges" class="highchart"></div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <div id="week-muscle-groups" class="highchart"></div>
+            <select id="filter-workout-dates" class="date-range-filter" name="select">
+              <option value="7">7 days</option>
+              <option value="14" selected>14 days</option>
+              <option value="31">1 month</option>
+              <option value="365">1 year</option>
+            </select>
+          </div>
+          <div class="col-xs-12 top-buffer">
+            <div id="average-workout-count" class="highchart"></div>
+          </div>
+          <div class="col-xs-12 col-sm-6 top-buffer">
+            <div id="workout-counts">
+              <div class="feed-header">
+                Most Workouts Recorded
+              </div>
+              {% for w in most_workouts %}
+              <div class="col-xs-12 white">
+                <a class="profile" href="{{ w.0.get_absolute_url }}">
+                  <img class="img-circle" src="{{ w.0.gravatar }}"
+                       title="View {{ w.0.username }} profile" /img>
+                </a>
+                <a class="workout-count"
+                   href="{{ w.0.get_absolute_url }}workouts">
+                   {{ w.1 }} workouts
+                 </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 top-buffer">
+            <div id="workout-counts" class="white">
+              <div class="feed-header">
+                Friends Recent Workouts
+              </div>
+              {% for w in friend_workout_history %}
+                <div class="dashboard-workout col-xs-12">
+                  <a class="profile" href="{{ w.user.get_absolute_url }}">
+                    <img class="img-circle" src="{{ w.user.gravatar }}"
+                         title="View {{ w.user.username }} profile" /img>
+                  </a>
+                  <a href="{{ w.get_absolute_url }}">{{ w.description }}
+                    <span class="workout-date hidden-xs"> - {{ w.date }}</span>
+                  </a>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

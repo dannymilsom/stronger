@@ -1,0 +1,91 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+  <script type="text/javascript" src="/static/stronger/js/meal.js"></script>
+  <script type="text/javascript">
+    // pass some data to our JS
+    data_from_django = {{ js_data|safe }};
+  </script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard | Meal
+{% endblock %}
+
+{% block message %}
+  <div id="meal" class="container navbar-buffer sub-nav-padding"
+       data-mealid="{{ nutrition_record.id }}">
+    <div class="row">
+      <div class="col-md-4 col-md-push-8 col-lg-3 col-lg-push-9">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="dashboard-btn col-xs-12">
+              <span class="dashboard-stat">
+                {{ nutrition_record.date }}
+              </span>
+              {{ nutrition_record.user }}
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <div class="dashboard-btn col-xs-12">
+              <span class="dashboard-stat">
+                {{ nutrition_record.calories }}
+              </span>
+              Calories
+            </div>
+          </div>
+          <div class="col-xs-12 top-buffer bottom-buffer">
+            <a id="edit-meal" class="btn btn-lg btn-warning full-width">
+              Edit Meal
+            </a>
+          </div>
+        {% if workout %}
+          <div class="col-xs-12 bottom-buffer">
+            <a class="btn btn-lg btn-info full-width"
+               href="{{ workout.get_absolute_url }}">
+              View Workout on {{ nutrition_record.date }}
+            </a>
+          </div>
+        {% endif %}
+        </div>
+      </div>
+      <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3">
+        <div class="row">
+          <div class="col-xs-6">
+           <div id="meal-macros-pie" class="highchart"></div> 
+          </div>
+          <div class="col-xs-6 bottom-buffer">
+           <div id="meal-macros-column" class="highchart"></div> 
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <div class="dashboard-btn col-xs-12">
+              <span class="dashboard-stat">{{ nutrition_record.protein }}g</span>
+              Protein
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <div class="dashboard-btn col-xs-12">
+              <span class="dashboard-stat">{{ nutrition_record.carbs }}g</span>
+              Carbs
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <div class="dashboard-btn col-xs-12">
+              <span class="dashboard-stat">{{ nutrition_record.fats }}g</span>
+              Fats
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="edit-meal-dialog" class="hidden" method="post" action="">{% csrf_token %}
+    {{ edit_nutrition_form.calories }}
+    {{ edit_nutrition_form.protein }}
+    {{ edit_nutrition_form.carbs }}
+    {{ edit_nutrition_form.fats }}
+    <input class="submit-btn"type="submit" value="Save Changes" />
+  </form>
+
+{% endblock %}

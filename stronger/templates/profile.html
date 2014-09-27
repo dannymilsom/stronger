@@ -1,0 +1,148 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+    <script type="text/javascript" src="/static/stronger/js/profile.js"></script>
+    <script type="text/javascript">
+      data_from_django = {{ js_data|safe }};
+    </script>
+
+{% endblock %}
+
+{% block title %}
+STRONGER | Dashboard 
+{% endblock %}
+
+{% block message %}
+  <div id="profile" class="container navbar-buffer sub-nav-padding">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="profile-grid">
+          <div class="col-xs-12 col-sm-3">
+            <a href="/dashboard/user/{{ user.username }}">
+              <img id="profile-gravatar"
+                   class="img-circle img-responsive center-block"
+                   src="{{ user.gravatar }}" title="{{ user.username }}" /img>
+            </a>
+            {% if not already_friends %}
+              <button id="add-friend" type="button"
+                      class="btn btn-success center-block">
+                Follow
+              </button>
+            {% else %}
+              <button id="remove-friend" type="button"
+                      class="btn btn-danger center-block">
+                Unfollow
+              </button>
+            {% endif %}
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <ul class="no-bullet-points">
+              <li class="username">{{ user.username }}</li>
+              <li class="firstname">{{ user.first_name }} {{ user.last_name }}</li>
+              <li class="height">{{ user.height }}cm / {{ user.bodyweight }}kg</li>
+              <li class="gym">{{ user.gym }}</li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-5">
+            <ul class="no-bullet-points">
+              <li class="top-padding">{{ user.about }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row top-buffer">
+      <div class="col-xs-12 col-sm-3">
+        <div class="dashboard-btn">
+          <span class="dashboard-stat">{{ user.count_workouts }}</span>
+          Workouts
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-3">
+        <div class="dashboard-btn">
+          <span class="dashboard-stat">{{ user.count_meals }}</span>
+          Meals
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-3">
+        <div class="dashboard-btn">
+          <span class="dashboard-stat">{{ user.count_photos }}</span>
+          Photos
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-3">
+        <div class="dashboard-btn">
+          <span class="dashboard-stat">{{ user.count_followers }}</span>
+          Followers
+        </div>
+      </div>
+    </div>
+
+    <div class="row top-buffer">
+      <div class="col-xs-12">
+        <div id="big-four">
+          <i class="fa fa-circle-o-notch fa-spin"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="row top-buffer">
+      <div class="col-xs-12 col-sm-6">
+        <div id="dashboard-feed">
+          <div class="feed-header">
+            Recent Activity
+          </div>
+          {% for activity in news %}
+          <div class="activity">
+              <a href="/user/{{ activity.user }}">
+                <img class="img-circle img-responsive"
+                     src="{{ activity.user.gravatar }}"
+                     title="View {{ user.username }} profile" /img>
+              </a>
+              <span class="activity-link">
+                logged a {{ activity.newsfeed_category }} on 
+                {{ activity.date|date:"d-m-Y" }}
+              </span>
+              <a class="activity-link status-message"
+                 href="{{ activity.newsfeed_link }}">
+                 {{ activity.newsfeed_message }}
+              </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="hidden-xs col-sm-6">
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="bw-chart" class="highchart">
+              <i class="fa fa-spinner fa-spin"></i>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <div id="dashboard-friends" class="hidden-xs top-buffer">
+              <div class="feed-header">
+                Followers
+              </div>
+              {% for friend in followers %}
+              <div class="col-xs-12 col-sm-4"> 
+                <a href="/users/{{friend.user.username}}">
+                  <img class="profile-friend-img center-block img-circle"
+                       src="{{ friend.user.gravatar }}"/img>
+                </a>
+                <a href="/users/{{friend.user.username}}"
+                   class="block text-center">
+                   {{ friend.user.username }}
+                 </a>
+              </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> <!--dashboard-profile -->
+
+{% endblock %}

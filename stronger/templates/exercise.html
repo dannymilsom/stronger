@@ -1,0 +1,100 @@
+{% extends "dashboard.html" %}
+
+{% block header %}
+  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
+  <script type="text/javascript" src="/static/stronger/js/exercise.js"></script>
+{% endblock %}
+
+{% block title %}
+STRONGER | Exercise | {{ exercise.name }}
+{% endblock %}
+
+{% block message %}
+  <div id="exercise" class="container navbar-buffer sub-nav-padding">
+    <div class="row">
+      <div class="col-md-4 col-md-push-8 col-lg-3 col-lg-push-9">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="dashboard-btn">
+              <span id="exercise-name" class="dashboard-stat"
+                    data-clean-name="{{ exercise.clean_name }}">
+                {{ exercise.name }}
+              </span>
+              {{ exercise.primary_muscle }} / {{ exercise.secondary_muscles }}
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <a id="edit-exercise"
+               class="btn btn-lg btn-warning full-width top-buffer">
+               Edit Exercise
+             </a>
+          </div>
+          <div class="hidden-xs col-sm-12">
+            <div id="dashboard-feed" class="top-buffer bottom-buffer">
+              <div class="feed-header">
+                Used In Workouts
+              </div>
+              {% for workout in workouts %}
+                <div class="dashboard-workout col-xs-12">
+                  <a href="/user/{{ workout.users.username }}">
+                    <img class="img-circle img-responsive"
+                         src="{{ workout.user.gravatar }}" 
+                         title="View {{ user.username }} profile" /img>
+                  </a>
+                  <a class="status-message" href="/workouts/{{ workout.id}}">
+                    {{ workout.description }}
+                    <span class="workout-date"> - {{ workout.date }}</span>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3">
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="exercise-history" class="highchart"></div>
+          </div>
+        </div>
+        <div class="row">
+          <span class="col-xs-12 col-sm-4 top-buffer">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">
+                {{ exercise.records.1.weight }}kg
+              </span>
+              1RM
+            </div>
+          </span>
+          <span class="col-xs-12 col-sm-4 top-buffer">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">
+                {{ exercise.records.3.weight }}kg
+              </span>
+              3RM
+            </div>
+          </span>
+          <span class="col-xs-12 col-sm-4 top-buffer">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">
+                {{ exercise.records.5.weight }}kg
+              </span>
+              5RM
+            </div>
+          </span>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="exercise-records" class="highchart top-buffer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="edit-exercise-dialog" class="hidden" method="post" action="" >{% csrf_token %}
+    {{ edit_exercise_form.name }}
+    {{ edit_exercise_form.primary_muscle }}
+    {{ edit_exercise_form.secondary_muscles }}
+    <input class="col-xs-12 btn btn-success" type="submit" value="Save Changes"/>
+  </form>
+{% endblock %}
