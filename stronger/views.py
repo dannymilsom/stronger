@@ -504,7 +504,7 @@ def nutrition(request):
             transaction = True
 
         if transaction:
-            return HttpResponseRedirect('/nutrition')
+            return HttpResponseRedirect(reverse('nutrition'))
 
     following = [f.id for f in Friend.objects.following(request.user)]
 
