@@ -148,7 +148,7 @@ def profile(request, username):
     particular user. This is a page other users would see.
     """
 
-    user = _get_user_or_404(request, username)
+    user = get_object_or_404(User, username=username)
 
     data = {
         'news': _get_activites(request, username=username),
@@ -181,7 +181,7 @@ def user_day(request, username, date):
     Renders a page summarising the activities of a user on a given day.
     """
 
-    user = _get_user_or_404(request, username)
+    user = get_object_or_404(user, username=request.user)
 
     try:
         datetime.datetime.strptime(date, "%Y-%m-%d")
@@ -414,7 +414,7 @@ def ajax_big_three_progress(request, username):
     squat, deadlift and bench.
     """
 
-    user = _get_user_or_404(request, username)
+    user = get_object_or_404(user, username=request.user)
 
     big_three_history = {
         'squat': _exercise_history(user,
@@ -698,21 +698,11 @@ def groups(request):
 
 ### Private Methods ###
 
-def _get_user_or_404(request, username):
-    """
-    Based on the get_object_or_404() method in django.shortcuts, customised 
-    to render a particular template.
-    """
-
-    try:
-        return User.objects.get(username=username)
-    except User.DoesNotExist:
-        return render(request, "user_not_found.html", {'username': username})
-
 def _get_activites(request, username=None):
 
     if username:
-        user = _get_user_or_404(request, username)
+        user = get_object_or_404(User, username=username)
+
 
         workouts = Workout.objects.filter(user=user).order_by('-date')
         nutrition = DailyNutrition.objects.filter(user=user).order_by('-date')
