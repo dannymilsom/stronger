@@ -502,12 +502,6 @@ def nutrition(request):
             form.created_on = datetime.datetime.now()
             form.save()
             transaction = True
-        elif ('bodyweight' in request.POST and 
-          BodyWeightForm(request.POST).is_valid()):
-            form = BodyWeightForm(request.POST).save(commit=False)
-            form.user = request.user
-            form.save()
-            transaction = True
 
         if transaction:
             return HttpResponseRedirect('/nutrition')
