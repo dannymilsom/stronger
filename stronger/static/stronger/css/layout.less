@@ -874,7 +874,7 @@ nav li a { color: @white; }
 
 #welcome-message {
 	background-color: @blue3;
-	padding: 80px;
+	padding: 0 0 20px;
 
 	span {
 		font-size: 30px;
@@ -887,7 +887,14 @@ nav li a { color: @white; }
 	a {
 		color: @white;
 		text-decoration: underline;
-		margin: 0 10px;
+		margin-bottom: 10px;
+		width: 150px;
+
+		@media(min-width:768px){
+			display: inline-block;
+			margin: 0 10px;
+			width: 150px;
+		}
 	}
 }
 

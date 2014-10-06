@@ -9,20 +9,26 @@ STRONGERs | Home
   </div>
   <div id="welcome-message" class="text-center">
     <div class="container">
-      {% if not user.is_authenticated %}
-        <span>Welcome to stronger - track your progress today!</span>
-        <a id="home-login" class="btn btn-lg btn-success" href="login">LOGIN</a>
-        <a class="register btn btn-lg btn-primary" href="signup">SIGN UP</a>
-      {% else %}
-        {% if user.first_name %}
-          <span>Welcome {{ user.first_name }}</span>
+      <div class="row">
+        <div class="col-xs-12">
+        {% if not user.is_authenticated %}
+          <h1>Welcome to stronger.</h1>
+          <span>Track your progress today!</span>
+          <a id="home-login" class="btn btn-lg btn-success center-block" href="login">LOGIN</a>
+          <a class="register btn btn-lg btn-primary center-block" href="signup">SIGN UP</a>
         {% else %}
-          <span>Welcome {{ user.username }}</span>
+          {% if user.first_name %}
+            <h1>Welcome {{ user.first_name }}</h1>
+          {% else %}
+            <h1>Welcome {{ user.username }}</h1>
+          {% endif %}
+          <span>Track and review progress using the dashboard.</span>
+          <a href="{% url 'dashboard' %}" class="center-block">
+            <btn class="btn btn-lg btn-primary">Enter Dashboard</btn>
+          </a>
         {% endif %}
-        <a href="{% url 'dashboard' %}" class="center-block">
-          <btn class="btn btn-lg btn-primary">Enter Dashboard</btn>
-        </a>
-      {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}
