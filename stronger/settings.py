@@ -69,6 +69,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'stronger.context_processors.login_form',
     'stronger.context_processors.signup_form',
     'stronger.context_processors.friend_form',
+    'stronger.context_processors.setting_variables',
 )
 
 ROOT_URLCONF = 'stronger.urls'
@@ -132,4 +133,6 @@ REST_FRAMEWORK = {
 SITE_ID = 1
 
 INTERNAL_IPS = ('127.0.0.1',)
+
+GITHUB_URL = 'https://github.com/dannymilsom/stronger'
 

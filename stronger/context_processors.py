@@ -1,5 +1,7 @@
 from stronger.forms import UserForm, FriendForm, LoginForm
 
+from django.conf import settings
+
 def login_form(request):
     """
     Pass a authentication form to the template.
@@ -17,3 +19,11 @@ def friend_form(request):
         return {'friend_form': FriendForm()}
     else:
         return {}
+
+def setting_variables(request):
+    """
+    Makes constants defined in settings.py available inside templates.
+    """
+    return {
+        'GITHUB_URL': settings.GITHUB_URL
+    }

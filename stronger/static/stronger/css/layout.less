@@ -945,7 +945,16 @@ nav li a { color: @white; }
 	}
 }
 
-#about-involved { background-color: @blue1; }
+#about-involved {
+	background-color: @blue1;
+	a {
+		color: @blue3;
+
+		&:hover {
+			color: @blue4;
+		}
+	}
+}
 
 /***** Over-rides Bootstrap *****/
 
