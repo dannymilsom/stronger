@@ -231,7 +231,8 @@ class WorkoutManager(models.Manager):
                 workout_count.append((user, len([i for i in workouts])))
             else:
                 break
-        return workout_count
+
+        return sorted(workout_count, key=itemgetter(1), reverse=True)
 
     def get_workouts_including_exercise(self, user, exercise):
         """
