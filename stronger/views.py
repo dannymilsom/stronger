@@ -103,7 +103,7 @@ def signup(request):
             return HttpResponseRedirect(reverse('home'))
         else:
             data['signup_error'] = True
-            return render(request, "login.html", data)
+            return render(request, "signup.html", data)
     else:
         return HttpResponse(json.dumps({
             'registered': registered,
