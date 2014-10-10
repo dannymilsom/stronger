@@ -400,7 +400,7 @@ def exercises(request):
         new_exc.added_by = request.user
         new_exc.save()
         return HttpResponseRedirect(reverse('exercise',
-                kwargs={'exercise_name': new_exc.name}))
+                kwargs={'exercise_name': new_exc.clean_name}))
 
     following = [f.friend for f in Friend.objects.following(request.user)]
     data = {
