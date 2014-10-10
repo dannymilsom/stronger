@@ -507,14 +507,15 @@ def nutrition(request):
         transaction = False
         if ('calories' in request.POST and 
           DailyNutritionForm(request.POST).is_valid()):
-            form = DailyNutritionForm(request.POST).save(commit=False)
-            form.user = request.user
-            form.created_on = datetime.datetime.now()
-            form.save()
+            dailyn = DailyNutritionForm(request.POST).save(commit=False)
+            dailyn.user = request.user
+            dailyn.created_on = datetime.datetime.now()
+            dailyn.save()
             transaction = True
 
         if transaction:
-            return HttpResponseRedirect(reverse('nutrition'))
+            return HttpResponseRedirect(reverse('meal',
+                    kwargs={'meal_id': dailyn.id}))
 
     following = [f.id for f in Friend.objects.following(request.user)]
 
