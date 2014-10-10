@@ -383,25 +383,26 @@ def exercise(request, exercise_name):
 @login_required
 def exercises(request):
     """
-    Page displaying all exercise objects and a form to insert new rows into 
-    the Exercise table.
-    """
+    Page displaying all exercise objects and a form to create new Exercise 
+    instances.
 
-    if request.method == 'POST':
-        # save the exercise
-        new_exercise = Exercise(name=request.POST.get('name'),
-            primary_muscle=request.POST.get('primary_muscle'),
-            secondary_muscles=request.POST.get('secondary_muscles'),
-            added_by=request.user)
-        new_exercise.save()
+    If the submission of a AddExerciseForm is successful, the user is 
+    redirected to the page representing the new Exercise instance.
+    """
 
     if request.GET.get('name'):
         # exercise search form
         exercise = Exercise.objects.get(name=request.GET.get('name'))
         return redirect('exercise', exercise_name=exercise.clean_name)
 
-    following = [f.friend for f in Friend.objects.following(request.user)]
+    if request.method == 'POST' and AddExerciseForm(request.POST).is_valid():
+        new_exc = AddExerciseForm(request.POST).save(commit=False)
+        new_exc.added_by = request.user
+        new_exc.save()
+        return HttpResponseRedirect(reverse('exercise',
+                kwargs={'exercise_name': new_exc.name}))
 
+    following = [f.friend for f in Friend.objects.following(request.user)]
     data = {
         'exercise_count': Exercise.objects.all().count(),
         'exercise_form': AddExerciseForm(),
