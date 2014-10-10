@@ -33,11 +33,25 @@ STRONGER | Dashboard | Record Workout
       <div class="row">
         <div class="col-xs-12">
           <h2>RECORD WORKOUT</h2>
+          {% if errors %}
+            <p class="error-message">
+              Please try again - we found some errors...
+            </p>
+          {% endif %}
           <form id="workout-form" method="post" action="">
             {% csrf_token %}
             {{ workout_form.description }}
+            {% if errors.description %}
+              <span class="col-xs-12 error-message">{{ errors.description.as_text }}</span>
+            {% endif %}
             {{ workout_form.date }}
+            {% if errors.date %}
+            <span class="col-xs-12 error-message">{{ errors.date.as_text }}</span>
+            {% endif %}
             {{ workout_form.comments }}
+            {% if errors.comments %}
+            <span class="col-xs-12 error-message">{{ errors.comments.as_text }}</span>
+            {% endif %}
             <br>
             {{ set_formset.management_form }}
               {% for form in set_formset %}

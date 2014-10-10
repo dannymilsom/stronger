@@ -274,24 +274,37 @@ def workouts(request):
 def record_workout(request):
     """
     Renders a page displaying a record workout form.
+
+    Successful submission of a form will see the user redirected to the 
+    workout page in question. If any validation errors are detected the 
+    record workout page will be rendered again, alongside a list of 
+    all the problems identified.
     """
 
     SetFormSet = formset_factory(SetForm, extra=24)
     set_formset = SetFormSet()
 
+    data = {
+        'workout_form': WorkoutForm(),
+        'set_formset': set_formset
+    }
+
     if request.method == 'POST':
         formset = SetFormSet(request.POST, request.FILES)
         if formset.is_valid():
-            # create a workout object
-            w = Workout(user=request.user,
-                        date=request.POST.get('date'),
-                        description=request.POST.get('description'),
-                        comments=request.POST.get('comments'))
-            w.save()
+            wko_form = WorkoutForm(request.POST)
+            try:
+                wko = wko_form.save(commit=False)
+            except ValueError:
+                data['errors'] = wko_form.errors
+                return render(request, "record_workout.html", data)
+            else:
+                wko.user_id = request.user.id
+                wko.save()
 
             for i in range(int(request.POST.get('form-TOTAL_FORMS'))):
                 if request.POST.get('form-{0}-exercise'.format(i)):
-                    Set(workout=w,
+                    Set(workout=wko,
                         exercise=Exercise(request.POST.get(
                             'form-{0}-exercise'.format(i), '')),
                         weight=request.POST.get(
@@ -300,12 +313,9 @@ def record_workout(request):
                             'form-{0}-reps'.format(i), '')).save()
                 else:
                     continue
-        return HttpResponseRedirect(reverse('workout', kwargs={'workout_id': w.id}))
 
-    data = {
-        'workout_form': WorkoutForm(),
-        'set_formset': set_formset
-    }
+        return HttpResponseRedirect(reverse('workout',
+                kwargs={'workout_id': wko.id}))
 
     return render(request, "record_workout.html", data)
 
