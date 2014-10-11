@@ -26,27 +26,22 @@ User = get_user_model()
 
 def login(request):
     """
-    Supports authentication for users. The response depends on the request 
-    type.
+    Supports authentication for users. The response depends on the request type.
     """
 
     data = {'login_form': LoginForm}
+    authenticated = request.user.is_authenticated()
 
     if request.method == 'GET':
         # probably re-directed to /login via @login_required
         return render(request, "login.html", data)
 
-    elif request.method == 'POST' and not request.user.is_authenticated():
-        authenticated = False
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        if username and password:
-            user = authenticate(username=username, password=password)
-            if user is not None and user.is_active:
-                auth_login(request, user)
-                authenticated = True
-    else:
-        authenticated = True
+    elif request.method == 'POST' and not authenticated:
+        user = authenticate(username=request.POST.get('username'),
+                            password=request.POST.get('password'))
+        if user is not None and user.is_active:
+            auth_login(request, user)
+            authenticated = True
 
     # check the referer to see if we should redirect or send a JSON response
     if '/login' in request.META['HTTP_REFERER']:
