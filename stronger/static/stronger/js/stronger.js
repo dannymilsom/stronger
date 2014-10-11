@@ -112,75 +112,109 @@
             $("#login-dialog").submit(function(e) {
 
                 e.preventDefault();
-                $("#success_login, #failed_login").remove();
-                $(this).append('<div class="col-xs-12 text-center">' + 
-                               '<i class="fa fa-spinner fa-spin"></i></div>');
 
-                $.ajax({
-                    method: 'POST',
-                    url: '/login',
-                    data: $(this).serialize(),
-                    cache: false,
-                    success: function(data) {
-
-                        console.log("success")
-
-                        if (data['authenticated']) {
-                            $(this).html('<div class="col-xs-12 text-center">' + 
-                                        '<i class="fa fa-check green"></i>' +
-                                        '<p class="text-center green">' +
-                                        'Successfully authenticated!</div>');
-                            console.log("worked well")
-                            setTimeout(function() {
-                                $('#login-dialog').dialog('close');
-                                // we reload the page to show additional navbar items otherwise hidden
-                                window.location.reload()}, 1500);
-                        }
-                        else {
-                            $(".fa-spin").remove();
-                            $(this).append('<div class="col-xs-12 text-center">' + 
-                                          '<i class="fa fa-times green"></i>' + 
-                                          '<p class="text-center red">' + 
-                                          'Failed to authenticated!</div>');
-                        }
+                $(this).validate({
+                  rules: {
+                    username: {
+                      required: true
+                    },
+                    password: {
+                        required: true
                     }
+                  }
                 });
+
+                if ($(this).valid() ){
+
+                    $("#success_login, #failed_login").remove();
+                    $(this).append('<div class="col-xs-12 text-center">' + 
+                                   '<i class="fa fa-spinner fa-spin"></i></div>');
+
+                    $.ajax({
+                        method: 'POST',
+                        url: '/login',
+                        data: $(this).serialize(),
+                        cache: false,
+                        success: function(data) {
+
+                            console.log("success")
+
+                            if (data['authenticated']) {
+                                $(this).html('<div class="col-xs-12 text-center">' + 
+                                            '<i class="fa fa-check green"></i>' +
+                                            '<p class="text-center green">' +
+                                            'Successfully authenticated!</div>');
+                                console.log("worked well")
+                                setTimeout(function() {
+                                    $('#login-dialog').dialog('close');
+                                    // we reload the page to show additional navbar items otherwise hidden
+                                    window.location.reload()}, 1500);
+                            }
+                            else {
+                                $(".fa-spin").remove();
+                                $(this).append('<div class="col-xs-12 text-center">' + 
+                                              '<i class="fa fa-times green"></i>' + 
+                                              '<p class="text-center red">' + 
+                                              'Failed to authenticated!</div>');
+                            }
+                        }
+                    });
+                }
             });
         },
         submitRegistration: function() {
 
             $("#registration-dialog").submit(function(e) {
+
                 e.preventDefault();
-                $(this).append('<div class="col-xs-12 text-center">' + 
+
+                $(this).validate({
+                  rules: {
+                    username: {
+                      required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                    password: {
+                        required: true
+                    }
+                  }
+                });
+
+                if ($(this).valid() ){
+                    $(this).append('<div class="col-xs-12 text-center">' + 
                                '<i class="fa fa-circle-o-notch fa-spin"></i></div>');
 
-                $.ajax({
-                    method: 'POST',
-                    url: '/signup',
-                    data: $(this).serialize(),
-                    cache: false,
-                    success: function(data) {
-                        if (data['authenticated']) {
-                            $(this).html('<div class="col-xs-12 text-center">' + 
-                                         '<i class="fa fa-check green"></i>' + 
-                                         '<p class="text-center green">' + 
-                                         'Successfully registered!</div>');
-                            // we reload the page to show additional navbar items otherwise hidden
-                            setTimeout(function() {
-                                $('#registration-dialog').dialog('close');
+                    $.ajax({
+                        method: 'POST',
+                        url: '/signup',
+                        data: $(this).serialize(),
+                        cache: false,
+                        success: function(data) {
+                            if (data['authenticated']) {
+                                $(this).html('<div class="col-xs-12 text-center">' + 
+                                             '<i class="fa fa-check green"></i>' + 
+                                             '<p class="text-center green">' + 
+                                             'Successfully registered!</div>');
                                 // we reload the page to show additional navbar items otherwise hidden
-                                window.location.reload()}, 1500);
-                        }
-                        else {
-                            $(".fa-spin").remove();
-                            $("#signup_submit").show();
-                            $(this).append('<div class="col-xs-12 text-center">' + 
-                                     '<i class="fa fa-times green"></i>' + 
-                                     '<p class="text-center red">' +
-                                     'Failed to create account!</div>');
-                        }
-                    },
-                });
+                                setTimeout(function() {
+                                    $('#registration-dialog').dialog('close');
+                                    // we reload the page to show additional navbar items otherwise hidden
+                                    window.location.reload()}, 1500);
+                            }
+                            else {
+                                $(".fa-spin").remove();
+                                $("#signup_submit").show();
+                                $(this).append('<div class="col-xs-12 text-center">' + 
+                                         '<i class="fa fa-times green"></i>' + 
+                                         '<p class="text-center red">' +
+                                         'Failed to create account!</div>');
+                            }
+                        },
+                    });
+                }
             });
 
         }

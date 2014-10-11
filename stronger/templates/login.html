@@ -1,5 +1,28 @@
 {% extends "base.html" %}
 
+{% block header %}
+<script type="text/javascript">
+$(function() {
+  $("#login-form").submit(function(e) {
+      $(this).validate({
+        rules: {
+          username: {
+            required: true
+          },
+          password: {
+              required: true
+          }
+        }
+      });
+
+      if (!$(this).valid()) {
+        e.preventDefault()
+      }
+  });
+});
+</script>
+{% endblock %}
+
 {% block title %}
 STRONGER | Login
 {% endblock %}

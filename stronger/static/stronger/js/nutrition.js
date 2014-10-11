@@ -35,6 +35,7 @@
           this.bindOpenMealDialog();
           this.bindOpenBodyweight();
           this.bindSubmitBodyweight();
+          this.bindSubmitNutrition();
           this.bindCalorieDateSelect();
 
         },
@@ -52,11 +53,51 @@
             });
 
         },
-        bindSubmitBodyweight: function() {
-            $("#bodyweight_submit").on('click', function(e){
-                  // don't POST the form yet
-                  e.preventDefault();
+        bindSubmitNutrition: function() {
+          $("#meal_record_dialog").submit(function(e){
+                $(this).validate({
+                  rules: {
+                    date: {
+                      required: true
+                    },
+                    calories: {
+                      required: true
+                    },
+                    protein: {
+                      required: true
+                    },
+                    carbs: {
+                      required: true
+                    },
+                    fats: {
+                      required: true
+                    }
+                  }
+                });
 
+                if (!$(this).valid()) {
+                  e.preventDefault()
+                }
+          });
+        },
+        bindSubmitBodyweight: function() {
+            $("#bodyweight_dialog").submit(function(e){
+
+                $(this).validate({
+                  rules: {
+                    bodyweight: {
+                      required: true
+                    },
+                    date: {
+                      required: true
+                    }
+                  }
+                });
+
+                if (!$(this).valid()) {
+                  e.preventDefault()
+                }
+                else {
                   // show spinner as we process the request
                   $("#bodyweight_submit").attr('disabled', true);
                   $("#bodyweight_dialog").append('<div class="loading-spinner col-xs-12 \
@@ -78,8 +119,8 @@
                                                   .dialog("close");
                       }
                   })
+                }
               });
-
         },
         bindCalorieDateSelect: function() {
 

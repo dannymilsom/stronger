@@ -27,7 +27,26 @@
         submitWorkout: function() {
 
             // add the missing exercise values to hidden inputs on form submit event
-            $("#workout-form").submit(function() {
+            $("#workout-form").submit(function(e) {
+
+              $(this).validate({
+                rules: {
+                  description: {
+                    required: true
+                  },
+                  date: {
+                    required: true
+                  },
+                  comments: {
+                    required: true
+                  }
+                }
+              });
+
+              if (!$(this).valid()) {
+                e.preventDefault()
+              }
+              else {
                 $(".workout-exercise.hidden").each(function() {
                     // only append the exercise name if the set has a set/rep input
                     if ($(this).next().val()) {
@@ -37,8 +56,8 @@
                     }
                 });
                 return true
+              }
             });
-
         }
     }
 
