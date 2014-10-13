@@ -185,7 +185,7 @@
 
                 if ($(this).valid() ){
                     $(this).append('<div class="col-xs-12 text-center">' + 
-                               '<i class="fa fa-circle-o-notch fa-spin"></i></div>');
+                                   '<i class="center-block fa fa-spinner fa-spin"></i></div>');
 
                     $.ajax({
                         method: 'POST',
@@ -202,7 +202,7 @@
                                 setTimeout(function() {
                                     $('#registration-dialog').dialog('close');
                                     // we reload the page to show additional navbar items otherwise hidden
-                                    window.location.reload()}, 1500);
+                                    window.location.reload()}, 11500);
                             }
                             else {
                                 $(".fa-spin").remove();
