@@ -126,7 +126,7 @@
 
                 if ($(this).valid() ){
 
-                    $("#success_login, #failed_login").remove();
+                    $(".error-message").remove();
                     $(this).append('<div class="col-xs-12 text-center">' + 
                                    '<i class="fa fa-spinner fa-spin"></i></div>');
 
@@ -136,26 +136,15 @@
                         data: $(this).serialize(),
                         cache: false,
                         success: function(data) {
-
-                            console.log("success")
-
                             if (data['authenticated']) {
-                                $(this).html('<div class="col-xs-12 text-center">' + 
-                                            '<i class="fa fa-check green"></i>' +
-                                            '<p class="text-center green">' +
-                                            'Successfully authenticated!</div>');
-                                console.log("worked well")
-                                setTimeout(function() {
-                                    $('#login-dialog').dialog('close');
-                                    // we reload the page to show additional navbar items otherwise hidden
-                                    window.location.reload()}, 1500);
+                                $('#login-dialog').dialog('close');
+                                window.location.reload();
                             }
                             else {
                                 $(".fa-spin").remove();
-                                $(this).append('<div class="col-xs-12 text-center">' + 
-                                              '<i class="fa fa-times green"></i>' + 
-                                              '<p class="text-center red">' + 
-                                              'Failed to authenticated!</div>');
+                                $('#login-dialog').append('<span class="col-xs-12 ' +
+                                    'text-center error-message">Unable to authenticate ' +
+                                    'using those credentials. Please try again.</span>');
                             }
                         }
                     });
@@ -184,6 +173,7 @@
                 });
 
                 if ($(this).valid() ){
+                    $(".error-message").remove();
                     $(this).append('<div class="col-xs-12 text-center">' + 
                                    '<i class="center-block fa fa-spinner fa-spin"></i></div>');
 
@@ -193,24 +183,15 @@
                         data: $(this).serialize(),
                         cache: false,
                         success: function(data) {
-                            if (data['authenticated']) {
-                                $(this).html('<div class="col-xs-12 text-center">' + 
-                                             '<i class="fa fa-check green"></i>' + 
-                                             '<p class="text-center green">' + 
-                                             'Successfully registered!</div>');
-                                // we reload the page to show additional navbar items otherwise hidden
-                                setTimeout(function() {
-                                    $('#registration-dialog').dialog('close');
-                                    // we reload the page to show additional navbar items otherwise hidden
-                                    window.location.reload()}, 11500);
+                            if (!data['authenticated']) {
+                                $('#registration-dialog').dialog('close');
+                                window.location.reload()
                             }
                             else {
                                 $(".fa-spin").remove();
-                                $("#signup_submit").show();
-                                $(this).append('<div class="col-xs-12 text-center">' + 
-                                         '<i class="fa fa-times green"></i>' + 
-                                         '<p class="text-center red">' +
-                                         'Failed to create account!</div>');
+                                $('#registration-dialog').append('<span class="col-xs-12 ' +
+                                    'text-center error-message">Unable to create an ' +
+                                    'account with those details. Please try again.</span>');
                             }
                         },
                     });
