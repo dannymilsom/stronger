@@ -1,0 +1,20 @@
+{
+  "name": "stronger_project",
+  "version": "0.0.0",
+  "description": "Package JSON file for NPM.",
+  "main": "gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dannymilsom/stronger.git"
+  },
+  "author": "dannymilsom",
+  "bugs": {
+    "url": "https://github.com/dannymilsom/stronger/issues"
+  },
+  "homepage": "https://github.com/dannymilsom/stronger",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-less": "~0.11.0",
+    "grunt-contrib-watch": "~0.6.1"
+  }
+}
