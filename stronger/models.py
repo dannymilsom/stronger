@@ -22,10 +22,10 @@ class StrongerUser(AbstractUser):
         ('sm', 'Strongman'),
     )
 
-    gym = models.CharField(max_length=30)
-    goals = models.CharField(choices=GOAL_CHOICES, max_length=10)
-    about = models.CharField(max_length=200)
-    height = models.IntegerField(null=True)
+    gym = models.CharField(max_length=30, blank=True)
+    goals = models.CharField(choices=GOAL_CHOICES, max_length=10, blank=True)
+    about = models.CharField(max_length=200, blank=True)
+    height = models.IntegerField(null=True, blank=True)
     gravatar = models.URLField(null=True, 
         default="http://findicons.com/files/icons/1072/face_avatars/300/k04.png")
 
