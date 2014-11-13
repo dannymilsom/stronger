@@ -24,6 +24,7 @@
         bindListeners: function() {
 
             this.bindExerciseDialog();
+            this.bindRepRangeFilter();
 
         },
         bindExerciseDialog: function() {
@@ -33,16 +34,29 @@
             });
 
         },
+        bindRepRangeFilter: function() {
+
+            self = this;
+            $("#filter-rep-range").change(function() {
+                self.requestExerciseData($("#filter-rep-range")
+                    .find(":selected")
+                    .val());
+            });
+
+        },
         requestData: function() {
 
             this.requestExerciseData();
 
         },
-        requestExerciseData: function() {
+        requestExerciseData: function(reps) {
+
+            var exercise = $("#exercise-name").data('cleanName'),
+                rep_range = reps ? reps : '1'
 
             $.ajax({
                 method: 'GET',
-                url: '/ajax/exercises/' + $("#exercise-name").data('cleanName'),
+                url: '/ajax/exercises/' + exercise + '?reps=' + rep_range,
                 cache: false,
                 success: this._drawCharts
             });
@@ -54,27 +68,31 @@
 
                 var chart_data = [];
 
-                if (['exercise-history'].indexOf(chart_id) >= 0) {
+                if (['exercise-progress'].indexOf(chart_id) >= 0) {
 
                     // sort the chart data
                     for (i in data) {
-                        var series = {
-                            name: i,
-                            data: data[i]
-                        }
-                        chart_data.push(series);
+                        var dt = new Date(i);
+                        chart_data.push([Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth(),
+                                         dt.getUTCDate()), data[i]]);
                     }
 
                     var chart_options = $.extend({}, line_chart, {
                         title: {
                             text: 'Exercise History'
                         },
+                        xAxis: {
+                            type: 'datetime'
+                        },
                         yAxis: {
                             title: {
                                 text: 'Weight (kg)'
                             }
                         },
-                        series: chart_data
+                        series: [{
+                            name: 'Rep History',
+                            data: chart_data.sort()
+                        }]
                     });
 
                 }

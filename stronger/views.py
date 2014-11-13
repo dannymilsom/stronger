@@ -448,28 +448,34 @@ def ajax_popular_exercises(request):
 
     return HttpResponse(json.dumps(data), content_type = "application/json")
 
-
 def ajax_exercise_history(request, exercise_name):
 
     exercise = get_object_or_404(Exercise, clean_name=exercise_name)
     data = {
-        'exercise-history': _exercise_history(request.user, exercise),
         'exercise-records': _exercise_records(request.user, exercise),
+        'exercise-progress': _exercise_progression(request.user,
+            exercise, request.GET.get('reps', '5')),
     }
     return HttpResponse(json.dumps(data), content_type = "application/json")
 
-def _exercise_history(user, exercise):
+def _exercise_progression(user, exercise, reps=5):
+    """
+    Returns the highest weight lifted by a user for a specified exercise, in 
+    a particular repo range, in each recorded workout.
 
-    exercise_sets = Set.objects.filter(exercise=exercise,
+    We expect this to demonstrate progression over time - but that is not 
+    guaranteed!
+    """
+
+    exercise_sets = Set.objects.filter(exercise=exercise, reps=reps,
         workout__user__exact=user)
 
-    exercise_history = defaultdict(list)
-    for workout, sets in groupby(sorted(exercise_sets, 
-        key=attrgetter("workout")), key=attrgetter("workout")):
-        exercise_history[workout.date.strftime("%Y-%m-%d")] += \
-            [s.weight for s in sets]
+    history = {}
+    for workout, sets in groupby(sorted(exercise_sets,
+            key=attrgetter("workout")), key=attrgetter("workout")):
+        history[workout.date.strftime("%Y-%m-%d")] = max([s.weight for s in sets])
 
-    return exercise_history
+    return history
 
 def _exercise_records(user, exercise):
 

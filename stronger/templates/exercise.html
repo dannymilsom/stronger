@@ -9,6 +9,7 @@
 STRONGER | Exercise | {{ exercise.name }}
 {% endblock %}
 
+{% load get_range_from_one %}
 {% block message %}
   <div id="exercise" class="container navbar-buffer sub-nav-padding">
     <div class="row">
@@ -54,7 +55,12 @@ STRONGER | Exercise | {{ exercise.name }}
       <div class="col-md-8 col-md-pull-4 col-lg-9 col-lg-pull-3">
         <div class="row">
           <div class="col-xs-12">
-            <div id="exercise-history" class="highchart"></div>
+            <div id="exercise-progress" class="highchart"></div>
+            <select id="filter-rep-range" class="date-range-filter" name="select">
+              {% for i in 11|get_range_from_one %}
+                <option value={{ i }}> {{ i }} reps</option>
+              {% endfor %}
+            </select>
           </div>
         </div>
         <div class="row">
