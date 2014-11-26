@@ -3,25 +3,9 @@
 {% block header %}
     <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
     <script type="text/javascript" src="/static/stronger/js/workouts.js"></script>
-    <script type="text/javascript" src="/static/stronger/js/libs/modernizr.custom.32481.js"></script>
-
     <script type="text/javascript">
     // pass some data to our JS
     data_from_django = {{ js_data|safe }};
-
-    $(function () {
-      yepnope({ /* included with Modernizr */
-        test : Modernizr.inputtypes.date,
-        nope : {
-          'css': '/static/stronger/css/jquery-ui-1.10.3.custom.min.css',
-          'js': '/static/stronger/js/libs/jquery-ui-1.10.3.datepicker.min.js'
-        },
-        callback: { // executed once files are loaded
-          'js': function() { $('input[type=date]').datepicker({dateFormat: "yy-mm-dd"}); } // default HTML5 format
-        }
-      });
-
-    });
     </script>
 {% endblock %}
 

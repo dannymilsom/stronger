@@ -130,11 +130,10 @@ class WorkoutForm(forms.ModelForm):
         model = Workout
         fields = ('date', 'description', 'comments')
         widgets = {
-            'date': Html5DateInput(),
             'date': forms.TextInput(attrs={
-                'placeholder': '2014-06-30',
-                'class': 'workout-meta col-xs-12',
-                'title': 'Date of the workout'
+                'placeholder': 'Date (YYYY-MM-DD)',
+                'class': 'workout-meta col-xs-12 datepicker',
+                'title': 'Date of the workout',
             }),
             'description': forms.TextInput(attrs={
                 'placeholder': 'Shoulder + Tris',
@@ -155,10 +154,9 @@ class EditWorkoutForm(forms.ModelForm):
         model = Workout
         fields = ('date', 'description', 'comments')
         widgets = {
-            'date': Html5DateInput(),
             'date': forms.TextInput(attrs={
-                'placeholder': '2014-06-30',
-                'class': 'workout-date wide-form-field',
+                'placeholder': 'Date (YYYY-MM-DD)',
+                'class': 'workout-date wide-form-field datepicker',
                 'title': 'Date of the workout'
             }),
             'description': forms.TextInput(attrs={
@@ -272,7 +270,7 @@ class BodyWeightForm(forms.ModelForm):
     }))
     date = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Date (YYYY-MM-DD)',
-        'class': 'wide-form-field'
+        'class': 'wide-form-field datepicker'
     }))
 
     class Meta:
@@ -285,7 +283,10 @@ class DailyNutritionForm(forms.ModelForm):
         model = DailyNutrition
         fields = ('date', 'calories', 'protein', 'carbs', 'fats')
         widgets = {
-            'date': Html5DateInput(),
+            'date': forms.TextInput(attrs={
+                'placeholder': 'Date (YYYY-MM-DD)',
+                'class': 'wide-form-field datepicker',
+            }),
             'calories': forms.TextInput(attrs={
                 'placeholder': 'Calories',
                 'class': 'wide-form-field'

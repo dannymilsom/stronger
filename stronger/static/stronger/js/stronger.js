@@ -85,6 +85,7 @@
             this.openLoginDialog();
             this.submitLogin();
             this.submitRegistration();
+            this.datePicker();
 
         },
         openRegistrationDialog: function() {
@@ -198,6 +199,9 @@
                 }
             });
 
+        },
+        datePicker: function() {
+            $(".datepicker").datepicker();
         }
     }
 
