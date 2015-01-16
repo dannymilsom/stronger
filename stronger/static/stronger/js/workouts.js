@@ -16,13 +16,14 @@
 
             daysBack = daysBack || 14;
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/workouts?days-back=' + daysBack,
                 data: { user: data_from_django["username"] },
-                cache: false,
-                success: this._drawCharts
+                cache: false
             });
+
+            res.done(this._drawCharts);
 
         },
         _drawCharts: function(data) {

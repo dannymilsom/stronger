@@ -29,23 +29,25 @@
         },
         requestBigThree: function() {
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/big-three-progress/' + data_from_django['username'],
-                cache: false,
-                success: this._drawBigThree
+                cache: false
             });
+
+            res.done(this._drawBigThree);
 
         },
         requestPopularExercises: function() {
 
             // we want to show the popular exercises
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/popular-exercises',
-                cache: false,
-                success: this._drawPopularExercises
+                cache: false
             });
+
+            res.done(this._drawPopularExercises);
 
         },
         bindListeners: function() {

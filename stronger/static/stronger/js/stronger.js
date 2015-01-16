@@ -110,6 +110,7 @@
         },
         submitLogin: function() {
 
+            var self = this;
             $("#login-dialog").submit(function(e) {
 
                 e.preventDefault();
@@ -131,29 +132,21 @@
                     $(this).append('<div class="col-xs-12 text-center">' + 
                                    '<i class="fa fa-spinner fa-spin"></i></div>');
 
-                    $.ajax({
+                    res = $.ajax({
                         method: 'POST',
                         url: '/login',
                         data: $(this).serialize(),
-                        cache: false,
-                        success: function(data) {
-                            if (data['authenticated']) {
-                                $('#login-dialog').dialog('close');
-                                window.location.reload();
-                            }
-                            else {
-                                $(".fa-spin").remove();
-                                $('#login-dialog').append('<span class="col-xs-12 ' +
-                                    'text-center error-message">Unable to authenticate ' +
-                                    'using those credentials. Please try again.</span>');
-                            }
-                        }
+                        cache: false
                     });
+
+                    res.done(self._processLogin);
+
                 }
             });
         },
         submitRegistration: function() {
 
+            var self = this;
             $("#registration-dialog").submit(function(e) {
 
                 e.preventDefault();
@@ -174,34 +167,50 @@
                 });
 
                 if ($(this).valid() ){
+
                     $(".error-message").remove();
                     $(this).append('<div class="col-xs-12 text-center">' + 
                                    '<i class="center-block fa fa-spinner fa-spin"></i></div>');
 
-                    $.ajax({
+                    res = $.ajax({
                         method: 'POST',
                         url: '/signup',
                         data: $(this).serialize(),
-                        cache: false,
-                        success: function(data) {
-                            if (!data['authenticated']) {
-                                $('#registration-dialog').dialog('close');
-                                window.location.reload()
-                            }
-                            else {
-                                $(".fa-spin").remove();
-                                $('#registration-dialog').append('<span class="col-xs-12 ' +
-                                    'text-center error-message">Unable to create an ' +
-                                    'account with those details. Please try again.</span>');
-                            }
-                        },
+                        cache: false
                     });
+
+                    res.done(self._processSignup);
                 }
             });
 
         },
         datePicker: function() {
             $(".datepicker").datepicker();
+        },
+        _processLogin: function(data) {
+            if (data['authenticated']) {
+                $('#login-dialog').dialog('close');
+                window.location.reload();
+            }
+            else {
+                $(".fa-spin").remove();
+                $('#login-dialog').append('<span class="col-xs-12 ' +
+                    'text-center error-message">Unable to authenticate ' +
+                    'using those credentials. Please try again.</span>');
+            }
+        },
+        _processSignup: function(data) {
+
+            if (data['authenticated']) {
+                $('#registration-dialog').dialog('close');
+                window.location.reload()
+            }
+            else {
+                $('#registration-dialog').append('<span class="col-xs-12 ' +
+                    'text-center error-message">Unable to create an ' +
+                    'account with those details. Please try again.</span>');
+            }
+
         }
     }
 

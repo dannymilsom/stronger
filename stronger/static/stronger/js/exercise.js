@@ -54,12 +54,13 @@
             var exercise = $("#exercise-name").data('cleanName'),
                 rep_range = reps ? reps : '1'
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/exercises/' + exercise + '?reps=' + rep_range,
-                cache: false,
-                success: this._drawCharts
+                cache: false
             });
+
+            res.done(this._drawCharts);
 
         },
         _drawCharts: function(data) {

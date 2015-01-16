@@ -14,22 +14,24 @@
         },
         requestBigThreeData: function() {
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/big-three-progress/' + data_from_django['username'],
-                cache: false,
-                success: this._drawBigThreeChart
+                cache: false
             });
+
+            res.done(this._drawBigThreeChart);
 
         },
         requestRecentCalorieData: function() {
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/nutrition-summary/',
-                cache: false,
-                success: this._drawCalorieChart
+                cache: false
             });
+
+            res.done(this._drawCalorieChart);
 
         },
         _drawBigThreeChart: function(data) {

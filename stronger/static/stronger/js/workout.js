@@ -68,12 +68,13 @@
 
         requestWorkoutData: function() {
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/workout/' + data_from_django['workout_id'],
-                cache: false,
-                success: this._drawCharts
+                cache: false
             });
+
+            res.done(this._drawCharts);
 
         },
         _drawCharts: function(data) {

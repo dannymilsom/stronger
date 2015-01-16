@@ -16,27 +16,20 @@
         bindAddFriend: function() {
 
             // send a friend request
+            var self = this;
             $("#add-friend").on("click", function() {
-                $.ajax({
+                res = $.ajax({
                     method: 'POST',
                     url: '/api/friends',
                     cache: false,
-                    dataType: 'application/json',
+                    dataType: 'text',
                     data: {
                         'user': data_from_django['user'],
                         'friend': data_from_django['friend']
-                    },
-                    // success, json and 201 don't place nicely together
-                    // http://stackoverflow.com/questions/2233553/
-                    complete: function(xhr) {
-                        if (xhr.status = 201) {
-                            $("#add-friend").removeClass('btn-success')
-                                            .addClass('btn-danger')
-                                            .text("Unfollow");
-                            $("#add-friend").attr("id", "remove-friend");
-                        }
                     }
                 });
+
+                res.done(self._addFriend);
             });
 
         },
@@ -44,8 +37,9 @@
 
             // remove a friend instance
             if (data_from_django['friendship_id']) {
+                var self = this;
                 $("#remove-friend").on("click", function() {
-                    $.ajax({
+                    res = $.ajax({
                         method: 'DELETE',
                         url: '/api/friends/' + data_from_django['friendship_id'],
                         cache: false,
@@ -53,14 +47,9 @@
                         data: {
                             'user': data_from_django['user'],
                             'friend': data_from_django['friend']
-                        },
-                        success: function(data) {
-                            $("#remove-friend").removeClass('btn-danger')
-                                               .addClass('btn-success')
-                                               .text("Follow");
-                            $("#remove-friend").attr("id", "add-friend");
                         }
                     });
+                    res.done(self._toggleFriendship);
                 });
             }
 
@@ -73,22 +62,40 @@
         },
         requestBodyweightData: function() {
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/api/' + data_from_django['friend_username'] + '/bodyweight',
-                cache: false,
-                success: this._drawBodyweightChart
+                cache: false
             });
+
+            res.done(this._drawBodyweightChart);
 
         },
         requestBigThreeData: function() {
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/big-three-progress/' + data_from_django['friend_username'],
                 cache: false,
-                success: this._drawBigThreeChart
             });
+
+            res.done(this._drawBigThreeChart);
+
+        },
+        _addFriend: function(xhr) {
+
+            $("#add-friend").removeClass('btn-success')
+                            .addClass('btn-danger')
+                            .text("Unfollow");
+            $("#add-friend").attr("id", "remove-friend");
+
+        },
+        _toggleFriendship: function(data) {
+
+            $("#remove-friend").removeClass('btn-danger')
+                               .addClass('btn-success')
+                               .text("Follow");
+            $("#remove-friend").attr("id", "add-friend");
 
         },
         _drawBodyweightChart: function(data) {

@@ -103,22 +103,13 @@
                   $("#bodyweight_dialog").append('<div class="loading-spinner col-xs-12 \
                               text-center"><i class="fa fa-spinner fa-spin"></i></div>');
 
-                  $.ajax({
+                  res = $.ajax({
                       method: 'POST',
                       url: '/api/bodyweight',
-                      data: $("#bodyweight_dialog").serialize() + "&user=1",
-                      success: function(data) {
-                          $("#bodyweight_submit").attr('disabled', false)
-                          $(".loading-spinner").remove();
-                          $(".ajax-message").remove();
-                          $("#bodyweight_dialog").append('<div class="ajax-message \
-                                                          col-xs-12 green text-center"> \
-                                                          <i class="fa fa-check"></i> \
-                                                          <p class="text-center"> \
-                                                          Bodyweight logged</div>')
-                                                  .dialog("close");
-                      }
-                  })
+                      data: $("#bodyweight_dialog").serialize() + "&user=1"
+                  });
+
+                  res.done(this._logBodyweight)
                 }
               });
         },
@@ -140,24 +131,39 @@
         },
         requestBodyweight: function() {
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/api/bodyweight?user=' + data_from_django['user_id'],
-                cache: false,
-                success: this._drawBodyweightChart
+                cache: false
             });
+
+            res.done(this._drawBodyweightChart);
 
         },
         requestNutritionData: function(days) {
 
             days = days || 14;
 
-            $.ajax({
+            res = $.ajax({
                 method: 'GET',
                 url: '/ajax/nutrition-summary?days-back=' + days,
-                cache: false,
-                success: this._drawHighcharts
+                cache: false
             });
+
+            res.done(this._drawHighchart);
+
+        },
+        _logBodyweight: function(data) {
+
+          $("#bodyweight_submit").attr('disabled', false);
+          $(".loading-spinner").remove();
+          $(".ajax-message").remove();
+          $("#bodyweight_dialog").append('<div class="ajax-message \
+                                          col-xs-12 green text-center"> \
+                                          <i class="fa fa-check"></i> \
+                                          <p class="text-center"> \
+                                          Bodyweight logged</div>')
+                                  .dialog("close");
 
         },
         _drawBodyweightChart: function(data){
