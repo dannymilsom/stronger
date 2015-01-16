@@ -57,7 +57,7 @@
 
             $("#cancel-workout-delete").on('click', function() {
                 $("#delete-workout-dialog").dialog("close");
-            })
+            });
 
         },
         requestData: function() {
@@ -133,7 +133,7 @@
                         tooltip: {
                             formatter: function() {
                                 return this.point.exercise + ' - ' + this.y +
-                                       'x' + this.point.weight + 'kg'
+                                       'x' + this.point.weight + 'kg';
                             }
                         },
                         series: [{
@@ -150,7 +150,7 @@
                             var series_data = {
                                 name: i,
                                 data: data[i]
-                            }
+                            };
                             chart_data.push(series_data);
                         }
                     }
@@ -182,7 +182,7 @@
             }
 
         }
-    }
+    };
 
   /**
    * initialise the exercises page JavaScript once the DOM is ready

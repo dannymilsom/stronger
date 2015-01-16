@@ -24,6 +24,6 @@ $(function() {
                 'group': $("#group-name").text(),
                 'joined': "2014-08-07"
             }
-        })
+        });
     });
-})
+});

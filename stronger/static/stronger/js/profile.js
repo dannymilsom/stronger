@@ -120,7 +120,7 @@
                         data: data
                     }]
                 }));
-            }
+            };
 
             if (!data.length > 0) {
                 data = window.defaultBodyweightData;
@@ -128,7 +128,7 @@
                 $("#bw-chart").addClass("opacity");
             }
 
-            var bw_data = []
+            var bw_data = [];
             for (bw in data) {
                 var dt = new Date(data[bw]['date']);
                 bw_data.push([Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth(), 
@@ -156,13 +156,12 @@
                         var dt =  new Date(date);
                         exercise_sets.push([Date.UTC(dt.getUTCFullYear(),
                                             dt.getUTCMonth(), dt.getUTCDate()),
-                                            weight])
+                                            weight]);
                     });
                     history.push({'name': key, 'data': exercise_sets});
 
                     // sort the data to make sure it is in chronological order
                     for (var i=0; i < history.length; i++) {
-                        console.log(history[i])
                         history[i]["data"].sort(function(a, b) {
                             var valueA = a[0];
                             var valueB = b[0];
@@ -205,7 +204,7 @@
             }));
 
         }
-    }
+    };
 
   /**
    * initialise the exercises page JavaScript once the DOM is ready

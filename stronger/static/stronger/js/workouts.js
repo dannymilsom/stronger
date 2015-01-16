@@ -123,7 +123,7 @@
                      .val());
             });
         }
-    }
+    };
 
   /**
    * initialise the exercises page JavaScript once the DOM is ready

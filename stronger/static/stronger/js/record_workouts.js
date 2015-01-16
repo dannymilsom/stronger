@@ -44,7 +44,7 @@
               });
 
               if (!$(this).valid()) {
-                e.preventDefault()
+                e.preventDefault();
               }
               else {
                 $(".workout-exercise.hidden").each(function() {
@@ -55,11 +55,11 @@
                                            .first().val());
                     }
                 });
-                return true
+                return true;
               }
             });
         }
-    }
+    };
 
     $(function() {
         recordWorkout.init();

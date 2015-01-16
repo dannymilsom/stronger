@@ -71,7 +71,7 @@
                     var dt =  new Date(date);
                     exercise_sets.push([Date.UTC(dt.getUTCFullYear(),
                                         dt.getUTCMonth(), dt.getUTCDate()),
-                                        weight])
+                                        weight]);
                 });
                 history.push({'name': key, 'data': exercise_sets});
             });
@@ -104,7 +104,7 @@
             for (k in data) {
                 for (exercise in data[k]) {
                     categories.push(exercise);
-                    chart_data.push(data[k][exercise])
+                    chart_data.push(data[k][exercise]);
                 }
             }
 
@@ -127,13 +127,13 @@
             }));
         }
 
-    }
+    };
 
   /**
    * initialise the exercises page JavaScript once the DOM is ready
    */
    $(function() {
         exercises.init();
-   })
+   });
 
 })(jQuery);

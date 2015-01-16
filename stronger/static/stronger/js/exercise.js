@@ -52,7 +52,7 @@
         requestExerciseData: function(reps) {
 
             var exercise = $("#exercise-name").data('cleanName'),
-                rep_range = reps ? reps : '1'
+                rep_range = reps ? reps : '1';
 
             res = $.ajax({
                 method: 'GET',
@@ -129,7 +129,7 @@
                         },
                         tooltip: {
                             formatter: function() {
-                                return this.series.name + ' - <b>' + this.x + 
+                                return this.series.name + ' - <b>' + this.x +
                                        'RM</b> is <b>' + this.y + '</b>';
                             }
                         },

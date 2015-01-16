@@ -52,7 +52,7 @@
                         var dt =  new Date(date);
                         exercise_sets.push([Date.UTC(dt.getUTCFullYear(),
                                             dt.getUTCMonth(), dt.getUTCDate()),
-                                            weight])
+                                            weight]);
                     });
                     history.push({'name': key, 'data': exercise_sets});
 
@@ -150,12 +150,12 @@
 
                 // render the chart
                 $('#' + chart_id).highcharts(chart_options);
-            }
+            };
 
-            draw('calories-week', data['weekly-calories'])
+            draw('calories-week', data['weekly-calories']);
 
         }
-    }
+    };
 
   /**
    * initialise the exercises page JavaScript once the DOM is ready

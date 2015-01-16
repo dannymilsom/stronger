@@ -34,7 +34,7 @@
         prepareRegistrationDialog: function() {
 
             $("#registration-dialog").dialog({
-                autoOpen: false, 
+                autoOpen: false
             });
 
         },
@@ -129,7 +129,7 @@
                 if ($(this).valid() ){
 
                     $(".error-message").remove();
-                    $(this).append('<div class="col-xs-12 text-center">' + 
+                    $(this).append('<div class="col-xs-12 text-center">' +
                                    '<i class="fa fa-spinner fa-spin"></i></div>');
 
                     res = $.ajax({
@@ -169,7 +169,7 @@
                 if ($(this).valid() ){
 
                     $(".error-message").remove();
-                    $(this).append('<div class="col-xs-12 text-center">' + 
+                    $(this).append('<div class="col-xs-12 text-center">' +
                                    '<i class="center-block fa fa-spinner fa-spin"></i></div>');
 
                     res = $.ajax({
@@ -203,7 +203,7 @@
 
             if (data['authenticated']) {
                 $('#registration-dialog').dialog('close');
-                window.location.reload()
+                window.location.reload();
             }
             else {
                 $('#registration-dialog').append('<span class="col-xs-12 ' +
@@ -212,7 +212,7 @@
             }
 
         }
-    }
+    };
 
   /**
    * initialise the exercises page JavaScript once the DOM is ready

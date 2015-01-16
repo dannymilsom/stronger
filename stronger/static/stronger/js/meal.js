@@ -64,10 +64,10 @@
                     }];
                     chart_options['title'] = {
                         text: 'Macro Nutrition (%)'
-                    }
+                    };
                     chart_options['tooltip'] = {
                         pointFormat: '<b>{point.percentage:.1f}%</b>'
-                    }
+                    };
 
                     for (i in data) {
                         chart_data.push([i, data[i]]);
@@ -77,7 +77,7 @@
 
                     chart_options['chart'] = {
                         type: type
-                    }
+                    };
                     chart_options['xAxis'] = {
                         gridLineWidth: 0,
                         labels: {
@@ -110,14 +110,14 @@
                     };
                     chart_options['title'] = {
                         text: 'Macro Nutrition (kCal)'
-                    }
+                    };
                     chart_options['series'] = [{
                         name: 'Meal Macro Nutrition',
                         data: chart_data
-                    }]
+                    }];
                     chart_options['tooltip'] = {
                         pointFormat: '<b>{point.y} kCal</b>'
-                    }
+                    };
 
                     for (i in data) {
                         chart_data.push(data[i]);

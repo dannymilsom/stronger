@@ -76,7 +76,7 @@
                 });
 
                 if (!$(this).valid()) {
-                  e.preventDefault()
+                  e.preventDefault();
                 }
           });
         },
@@ -95,13 +95,13 @@
                 });
 
                 if (!$(this).valid()) {
-                  e.preventDefault()
+                  e.preventDefault();
                 }
                 else {
                   // show spinner as we process the request
                   $("#bodyweight_submit").attr('disabled', true);
-                  $("#bodyweight_dialog").append('<div class="loading-spinner col-xs-12 \
-                              text-center"><i class="fa fa-spinner fa-spin"></i></div>');
+                  $("#bodyweight_dialog").append('<div class="loading-spinner col-xs-12 ' +
+                              'text-center"><i class="fa fa-spinner fa-spin"></i></div>');
 
                   res = $.ajax({
                       method: 'POST',
@@ -109,7 +109,7 @@
                       data: $("#bodyweight_dialog").serialize() + "&user=1"
                   });
 
-                  res.done(this._logBodyweight)
+                  res.done(this._logBodyweight);
                 }
               });
         },
@@ -158,11 +158,11 @@
           $("#bodyweight_submit").attr('disabled', false);
           $(".loading-spinner").remove();
           $(".ajax-message").remove();
-          $("#bodyweight_dialog").append('<div class="ajax-message \
-                                          col-xs-12 green text-center"> \
-                                          <i class="fa fa-check"></i> \
-                                          <p class="text-center"> \
-                                          Bodyweight logged</div>')
+          $("#bodyweight_dialog").append('<div class="ajax-message ' +
+                                          'col-xs-12 green text-center"> ' +
+                                          '<i class="fa fa-check"></i> ' +
+                                          '<p class="text-center"> ' +
+                                          'Bodyweight logged</div>')
                                   .dialog("close");
 
         },
@@ -267,7 +267,7 @@
                         chart_data.push({
                             name: m,
                             data: data[m]
-                        })
+                        });
                     }
 
                     var chart_options = $.extend({}, column_chart, {
