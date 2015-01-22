@@ -277,42 +277,46 @@ def record_workout(request):
     """
 
     SetFormSet = formset_factory(SetForm, extra=24)
-    set_formset = SetFormSet()
+    set_formset = SetFormSet(request.POST or None, request.FILES or None)
+    wko_form =  WorkoutForm(request.POST or None, request.FILES or None)
 
     data = {
-        'workout_form': WorkoutForm(),
-        'set_formset': set_formset
+        'workout_form': wko_form,
+        'set_formset': set_formset,
     }
 
-    if request.method == 'POST':
-        formset = SetFormSet(request.POST, request.FILES)
-        if formset.is_valid():
-            wko_form = WorkoutForm(request.POST)
-            try:
-                wko = wko_form.save(commit=False)
-            except ValueError:
-                data['errors'] = wko_form.errors
-                return render(request, "record_workout.html", data)
-            else:
-                wko.user_id = request.user.id
-                wko.save()
+    if request.method == 'POST' and wko_form.is_valid() and set_formset.is_valid():
+        try:
+            wko = wko_form.save(commit=False)
+        except ValueError:
+            return render(request, "record_workout.html", data)
+        else:
+            wko.user_id = request.user.id
+            wko.save()
+            _save_sets(request, wko)
 
-            for i in range(int(request.POST.get('form-TOTAL_FORMS'))):
-                if request.POST.get('form-{0}-exercise'.format(i)):
-                    Set(workout=wko,
-                        exercise=Exercise(request.POST.get(
-                            'form-{0}-exercise'.format(i), '')),
-                        weight=request.POST.get(
-                            'form-{0}-weight'.format(i), ''),
-                        reps=request.POST.get(
-                            'form-{0}-reps'.format(i), '')).save()
-                else:
-                    continue
-
-        return HttpResponseRedirect(reverse('workout',
-                kwargs={'workout_id': wko.id}))
+            return HttpResponseRedirect(reverse('workout',
+                            kwargs={'workout_id': wko.id}))
 
     return render(request, "record_workout.html", data)
+
+def _save_sets(request, workout):
+    """
+    Iterates over the set formset in a POST request, creating a new 
+    Set instance for each valid form input.
+    """
+
+    for i in range(int(request.POST.get('form-TOTAL_FORMS'))):
+        if request.POST.get('form-{0}-exercise'.format(i)):
+            Set(workout=workout,
+                exercise=Exercise(request.POST.get(
+                    'form-{0}-exercise'.format(i), '')),
+                weight=request.POST.get(
+                    'form-{0}-weight'.format(i), ''),
+                reps=request.POST.get(
+                    'form-{0}-reps'.format(i), '')).save()
+        else:
+            continue
 
 def ajax_workouts(request):
     """
