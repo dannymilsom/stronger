@@ -3,11 +3,11 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 admin.autodiscover()
 
-from stronger.api import (GroupList, GroupDetail, GroupMemberList,
-                         UserDetail, FriendList, FriendDetail, WorkoutList,
-                         WorkoutDetail, ExerciseList, BodyWeightList,
-                         BodyWeightDetail, UserList, NutritionList, 
-                         NutritionDetail, ExerciseDetail)
+from .api import (GroupList, GroupDetail, GroupMemberList,
+                  UserDetail, FriendList, FriendDetail, WorkoutList,
+                  WorkoutDetail, ExerciseList, BodyWeightList,
+                  BodyWeightDetail, UserList, NutritionList, 
+                  NutritionDetail, ExerciseDetail)
 
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name="home.html"), name='home'),

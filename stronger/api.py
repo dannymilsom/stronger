@@ -1,17 +1,17 @@
-from django.contrib.auth import get_user_model
-User = get_user_model()
-
-from rest_framework import generics
-from rest_framework import filters
-
-from stronger.models import (Group, GroupMember, Friend, Workout, 
-                            Exercise, BodyWeight, DailyNutrition)
-from stronger.serializer import (GroupSerializer, GroupMembersSerializer, 
-                                UserSerializer, FriendSerializer,
-                                DailyNutritionSerializer, BodyWeightSerializer,
-                                ExerciseSerializer, WorkoutSerializer)
-
 from datetime import datetime
+
+from django.contrib.auth import get_user_model
+
+from rest_framework import generics, filters
+
+from .models import (Group, GroupMember, Friend, Workout, 
+                     Exercise, BodyWeight, DailyNutrition)
+from .serializer import (GroupSerializer, GroupMembersSerializer, 
+                         UserSerializer, FriendSerializer,
+                         DailyNutritionSerializer, BodyWeightSerializer,
+                         ExerciseSerializer, WorkoutSerializer)
+
+User = get_user_model()
 
 
 class BodyWeightDetail(generics.RetrieveUpdateDestroyAPIView):

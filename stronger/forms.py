@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 User = get_user_model()
 
-from stronger.models import (Friend, Group, Workout, Set, Exercise, 
+from .models import (Friend, Group, Workout, Set, Exercise, 
                             BodyWeight, DailyNutrition)
 
 

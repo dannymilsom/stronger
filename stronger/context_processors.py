@@ -1,6 +1,7 @@
-from stronger.forms import UserForm, FriendForm, LoginForm
-
 from django.conf import settings
+
+from .forms import UserForm, FriendForm, LoginForm
+
 
 def login_form(request):
     """

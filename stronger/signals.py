@@ -8,7 +8,7 @@ from django.utils.text import get_text_list
 
 from rest_framework.authtoken.models import Token
 
-from stronger.models import StrongerUser
+from .models import StrongerUser
 
 @receiver(post_save, sender=StrongerUser)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

@@ -1,10 +1,11 @@
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
+
+from rest_framework import serializers
+
+from .models import (Group, GroupMember, Friend, Workout, 
+                     Exercise, BodyWeight, DailyNutrition)
+
 User = get_user_model()
-
-from stronger.models import (Group, GroupMember, Friend, Workout, 
-                            Exercise, BodyWeight, DailyNutrition)
-
 
 class BodyWeightSerializer(serializers.ModelSerializer):
     """

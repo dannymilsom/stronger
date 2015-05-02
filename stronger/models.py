@@ -1,12 +1,12 @@
+from datetime import datetime, date, timedelta
+import itertools
+from operator import attrgetter, itemgetter
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
-
-from datetime import datetime, date, timedelta
-import itertools
-from operator import attrgetter, itemgetter
 
 
 class StrongerUser(AbstractUser):

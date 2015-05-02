@@ -1,3 +1,10 @@
+from collections import defaultdict, Counter
+import datetime
+import json
+from itertools import chain, groupby
+import pytz
+from operator import attrgetter
+
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -7,20 +14,13 @@ from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
-from stronger.forms import (GroupForm, UserSettingsForm, LoginForm,
-                            UserForm, FindUserForm, WorkoutForm,
-                            EditWorkoutForm, SetForm, AddExerciseForm,
-                            FindExerciseForm, BodyWeightForm,
-                            DailyNutritionForm, FindWorkoutForm)
-from stronger.models import (Friend, Group, GroupMember, Workout, Set,
-                            Exercise, BodyWeight, DailyNutrition)
-
-from collections import defaultdict, Counter
-import datetime
-import json
-from itertools import chain, groupby
-import pytz
-from operator import attrgetter
+from .forms import (GroupForm, UserSettingsForm, LoginForm,
+                    UserForm, FindUserForm, WorkoutForm,
+                    EditWorkoutForm, SetForm, AddExerciseForm,
+                    FindExerciseForm, BodyWeightForm,
+                    DailyNutritionForm, FindWorkoutForm)
+from .models import (Friend, Group, GroupMember, Workout, Set,
+                    Exercise, BodyWeight, DailyNutrition)
 
 User = get_user_model()
 
