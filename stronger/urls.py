@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.views.generic import TemplateView
 admin.autodiscover()
 
 from .api import (GroupList, GroupDetail, GroupMemberList,
@@ -8,11 +7,11 @@ from .api import (GroupList, GroupDetail, GroupMemberList,
                   WorkoutDetail, ExerciseList, BodyWeightList,
                   BodyWeightDetail, UserList, NutritionList, 
                   NutritionDetail, ExerciseDetail)
+from .views import HomeTemplateView, AboutTemplateView
 
 urlpatterns = patterns('',
-    url(r'^$', TemplateView.as_view(template_name="home.html"), name='home'),
-    url(r'^about$', TemplateView.as_view(template_name="about.html"), 
-        name='about'),
+    url(r'^$', HomeTemplateView.as_view(), name='home'),
+    url(r'^about$', AboutTemplateView.as_view(), name='about'),
 
     # authentication
     url(r'^login$', 'stronger.views.login', name='login'),

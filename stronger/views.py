@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView
 
 from .forms import (GroupForm, UserSettingsForm, LoginForm,
                     UserForm, FindUserForm, WorkoutForm,
@@ -23,6 +24,25 @@ from .models import (Friend, Group, GroupMember, Workout, Set,
                     Exercise, BodyWeight, DailyNutrition)
 
 User = get_user_model()
+
+
+class HomeTemplateView(TemplateView):
+    """
+    Renders the homepage template - with links for users to authenticate 
+    or register new accounts.
+    """
+
+    template_name = 'home.html'
+
+
+class AboutTemplateView(TemplateView):
+    """
+    Renders the about template - describing the motivations behind the 
+    site and the technology used to create it.
+    """
+
+    template_name = 'about.html'
+
 
 def login(request):
     """
