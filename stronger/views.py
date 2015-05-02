@@ -5,6 +5,7 @@ from itertools import chain, groupby
 import pytz
 from operator import attrgetter
 
+from django.conf import settings as stronger_settings
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -42,6 +43,11 @@ class AboutTemplateView(TemplateView):
     """
 
     template_name = 'about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AboutTemplateView, self).get_context_data(**kwargs)
+        context['github_url'] = stronger_settings.GITHUB_URL
+        return context
 
 
 def login(request):

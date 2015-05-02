@@ -69,7 +69,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'stronger.context_processors.login_form',
     'stronger.context_processors.signup_form',
     'stronger.context_processors.friend_form',
-    'stronger.context_processors.setting_variables',
 )
 
 ROOT_URLCONF = 'stronger.urls'

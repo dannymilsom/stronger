@@ -1,7 +1,4 @@
-from django.conf import settings
-
 from .forms import UserForm, FriendForm, LoginForm
-
 
 def login_form(request):
     """
@@ -20,11 +17,3 @@ def friend_form(request):
         return {'friend_form': FriendForm()}
     else:
         return {}
-
-def setting_variables(request):
-    """
-    Makes constants defined in settings.py available inside templates.
-    """
-    return {
-        'GITHUB_URL': settings.GITHUB_URL
-    }
