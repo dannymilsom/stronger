@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = (
     'south',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_nose',
 )
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -134,4 +135,6 @@ SITE_ID = 1
 INTERNAL_IPS = ('127.0.0.1',)
 
 GITHUB_URL = 'https://github.com/dannymilsom/stronger'
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
