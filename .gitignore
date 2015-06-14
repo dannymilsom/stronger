@@ -63,3 +63,6 @@ target/
 
 *.db
 *.sqlite3
+
+# ignore node dependencies - they are all listed in package.json anyway
+node_modules
