@@ -30,11 +30,21 @@ Install dependencies using the Python package manager
 
 Create the database tables
 
-    python manage.py syncdb --migrate
+    python manage.py migrate
 
 Run the development server (this listens on port 8000 by default)
 
     python manage.py runserver
+
+We also need to activate Grunt - a task runner to watch the LESS files. To install the node dependencies run the following in the repo root.
+
+    npm install
+
+Finally fire up Grunt
+
+    grunt
+
+And you're ready to go!
 
 ## Contributions ##
 
