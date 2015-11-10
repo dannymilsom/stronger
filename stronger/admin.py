@@ -1,14 +1,25 @@
 from django.contrib import admin
 
-from .models import (Friend, Group, GroupMember, Workout, Set, 
-                     Exercise, BodyWeight, DailyNutrition)
+from .models import (
+    Bodyweight,
+    DailyNutrition,
+    Exercise,
+    Friend,
+    Group,
+    GroupMember,
+    Set,
+    Workout,
+)
 
-admin.site.register((Friend,
-                     Group,
-                     GroupMember,
-                     Workout, 
-                     Set,
-                     Exercise,
-                     BodyWeight,
-                     DailyNutrition,
-                   ))
+admin.site.register(
+    (
+        Bodyweight,
+        DailyNutrition,
+        Exercise,
+        Friend,
+        Group,
+        GroupMember,
+        Set,
+        Workout,
+    )
+)
