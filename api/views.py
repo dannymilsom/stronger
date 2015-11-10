@@ -1,15 +1,31 @@
-from datetime import datetime
+"""Model based views for API."""
+
+ from datetime import datetime
 
 from django.contrib.auth import get_user_model
 
 from rest_framework import generics, filters
 
-from .models import (Group, GroupMember, Friend, Workout, 
-                     Exercise, BodyWeight, DailyNutrition)
-from .serializer import (GroupSerializer, GroupMembersSerializer, 
-                         UserSerializer, FriendSerializer,
-                         DailyNutritionSerializer, BodyWeightSerializer,
-                         ExerciseSerializer, WorkoutSerializer)
+from stronger.models import (
+    BodyWeight,
+    DailyNutrition,
+    Exercise,
+    Friend,
+    Group,
+    GroupMember,
+    Workout, 
+)
+from .serializer import (
+    BodyWeightSerializer
+    DailyNutritionSerializer
+    ExerciseSerializer
+    FriendSerializer
+    GroupSerializer,
+    GroupMembersSerializer, 
+    UserSerializer,
+    WorkoutSerializer,
+)
+
 
 User = get_user_model()
 
@@ -186,5 +202,3 @@ class WorkoutList(generics.ListCreateAPIView):
     queryset = Workout.objects.all()
     serializer_class = WorkoutSerializer
     filter_fields = ('user')
-
-

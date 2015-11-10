@@ -1,11 +1,22 @@
+"""Serializers for core models."""
+
 from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-from .models import (Group, GroupMember, Friend, Workout, 
-                     Exercise, BodyWeight, DailyNutrition)
+from stronger.models import (
+    BodyWeight,
+    DailyNutrition,
+    Exercise,
+    Friend,
+    Group,
+    GroupMember,
+    Workout, 
+)
+
 
 User = get_user_model()
+
 
 class BodyWeightSerializer(serializers.ModelSerializer):
     """
@@ -83,4 +94,3 @@ class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
         fields = ('user', 'date', 'description', 'comments')
-
