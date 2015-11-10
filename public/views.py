@@ -16,13 +16,33 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 
-from .forms import (GroupForm, UserSettingsForm, LoginForm,
-                    UserForm, FindUserForm, WorkoutForm,
-                    EditWorkoutForm, SetForm, AddExerciseForm,
-                    FindExerciseForm, BodyWeightForm,
-                    DailyNutritionForm, FindWorkoutForm)
-from .models import (Friend, Group, GroupMember, Workout, Set,
-                    Exercise, BodyWeight, DailyNutrition)
+from stronger.models import (
+    BodyWeight,
+    DailyNutrition,
+    Exercise,
+    Friend,
+    Group,
+    GroupMember,
+    Set,
+    Workout,
+)
+
+from .forms import (
+    AddExerciseForm,
+    BodyWeightForm,
+    DailyNutritionForm,
+    EditWorkoutForm,
+    FindExerciseForm,
+    FindUserForm,
+    FindWorkoutForm,
+    GroupForm,
+    UserSettingsForm,
+    LoginForm,
+    SetForm,
+    UserForm,
+    WorkoutForm,
+)
+
 
 User = get_user_model()
 

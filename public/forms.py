@@ -1,10 +1,19 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
-User = get_user_model()
 
-from .models import (Friend, Group, Workout, Set, Exercise, 
-                            BodyWeight, DailyNutrition)
+from stronger.models import (
+    BodyWeight,
+    DailyNutrition,
+    Exercise,
+    Friend,
+    Group,
+    Set,
+    Workout,
+)
+
+
+User = get_user_model()
 
 
 class UserForm(forms.ModelForm):
@@ -28,6 +37,7 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
+
 
 class UserSettingsForm(forms.ModelForm):
 
@@ -57,10 +67,9 @@ class UserSettingsForm(forms.ModelForm):
             }),
         }
 
+
 class FindUserForm(forms.ModelForm):
-    """
-    Provides users a select list of registered users.
-    """
+    """Provides users a select list of registered users."""
 
     username = forms.ModelChoiceField(
         queryset=User.objects.all().order_by('username'),
@@ -74,6 +83,7 @@ class FindUserForm(forms.ModelForm):
         model = User
         fields = ('username',)
 
+
 class LoginForm(AuthenticationForm):
 
     username = forms.CharField(widget=forms.TextInput(attrs={
@@ -86,6 +96,7 @@ class LoginForm(AuthenticationForm):
         'class': 'wide-form-field',
         'title': 'Please enter your password'
     }))
+
 
 class GroupForm(forms.ModelForm):
 
@@ -103,6 +114,7 @@ class GroupForm(forms.ModelForm):
             })
         }
 
+
 class FriendForm(forms.ModelForm):
     friend = forms.CharField(widget=forms.TextInput())
 
@@ -110,11 +122,13 @@ class FriendForm(forms.ModelForm):
         model = Friend
         fields = ('friend',)
 
+
 class AddFriendForm(forms.ModelForm):
 
     class Meta:
         model = Friend
         fields = ('user', 'friend')
+
 
 class Html5DateInput(forms.DateInput):
     """
@@ -123,6 +137,7 @@ class Html5DateInput(forms.DateInput):
     if the browser doesn't support this feature yet (cough firefox cough).
     """
     input_type = 'date'
+
 
 class WorkoutForm(forms.ModelForm):
 
@@ -147,6 +162,7 @@ class WorkoutForm(forms.ModelForm):
                   'rows': 2
             }),
         }
+
 
 class EditWorkoutForm(forms.ModelForm):
 
@@ -198,6 +214,7 @@ class SetForm(forms.ModelForm):
             }),
         }
 
+
 class FindWorkoutForm(forms.ModelForm):
     """
     Rendersa select list, from which users can pick a workout they have 
@@ -219,10 +236,9 @@ class FindWorkoutForm(forms.ModelForm):
         model = Exercise
         fields = ('name',)
 
+
 class AddExerciseForm(forms.ModelForm):
-    """
-    Provides a user friendly way to create a new Exercise object.
-    """
+    """Provides a user friendly way to create a new Exercise object."""
 
     class Meta:
         model = Exercise
@@ -240,10 +256,9 @@ class AddExerciseForm(forms.ModelForm):
             }),
         }
 
+
 class FindExerciseForm(forms.ModelForm):
-    """
-    Provides users a select list, from which they can choose an exercise.
-    """
+    """Provides users a select list, from which they can choose an exercise."""
 
     name = forms.ChoiceField(widget=forms.Select(attrs={
         'class': 'wide-form-field',
@@ -254,6 +269,7 @@ class FindExerciseForm(forms.ModelForm):
         model = User
         fields = ('name',)
 
+
 class ExerciseProgressForm(forms.ModelForm):
 
     name = forms.ModelChoiceField(queryset=Exercise.objects.all())
@@ -261,6 +277,7 @@ class ExerciseProgressForm(forms.ModelForm):
     class Meta:
         model = Exercise
         fields = ('name',)
+
 
 class BodyWeightForm(forms.ModelForm):
 
@@ -276,6 +293,7 @@ class BodyWeightForm(forms.ModelForm):
     class Meta:
         model = BodyWeight
         fields = ('bodyweight', 'date')
+
 
 class DailyNutritionForm(forms.ModelForm):
 
