@@ -37,13 +37,7 @@ class StrongerUser(AbstractUser):
     @property
     def bodyweight(self):
         """Returns the most recent bodyweight instance for the user."""
-        try:
-            weight = BodyWeight.objects.filter(
-                user=self.id
-                ).order_by('-date').last()[0].bodyweight
-        except IndexError:
-            weight = None
-        return weight
+        return Bodyweight.objects.current_bodyweight(self)
 
     def bodyweight_history(self):
         """Returns all bodyweight records relating to the user."""
@@ -87,6 +81,7 @@ class BodyWeight(models.Model):
         # this is only applicable at the db level (no SQLite support)
         # so we cover this in the clean() method too
         unique_together = ('user', 'date')
+        ordering = ('-date',)
 
     def __unicode__(self):
         return "{} was {} on {}".format(self.user, self.bodyweight, self.date)
