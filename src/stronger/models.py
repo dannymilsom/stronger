@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 
+from .constants import GOAL_CHOICES, MUSCLE_GROUPS
 from .managers import (
     BodyWeightManager,
     DailyNutritionManager,
@@ -19,94 +20,66 @@ from .managers import (
 
 
 class StrongerUser(AbstractUser):
-    """
-    Extends the built in django AbstractUser Class, to add additional 
-    attributes useful for this app.
-    """
-
-    GOAL_CHOICES = (
-        ('bb', 'Body Building'),
-        ('pl', 'Powerlifting'),
-        ('ft', 'Fitness'),
-        ('sm', 'Strongman'),
-    )
+    """Custom user model for stronger user profile."""
 
     gym = models.CharField(max_length=30, blank=True)
     goals = models.CharField(choices=GOAL_CHOICES, max_length=10, blank=True)
     about = models.CharField(max_length=200, blank=True)
     height = models.IntegerField(null=True, blank=True)
     gravatar = models.URLField(null=True, 
-        default="http://findicons.com/files/icons/1072/face_avatars/300/k04.png")
+        default="http://findicons.com/files/icons/1072/face_avatars/300/k04.png"
+    )
 
     def get_absolute_url(self):
-        """
-        Returns a canonical URL for a user instance.
-        """
+        """Returns a canonical URL for a user instance."""
         return reverse('profile', kwargs={'username': self.username})
 
     @property
     def bodyweight(self):
-        """
-        Returns the most recent bodyweight recording for the user.
-        """
-
+        """Returns the most recent bodyweight instance for the user."""
         try:
-            return BodyWeight.objects.filter(user=self.id).order_by('-date')[:1][0].bodyweight
+            weight = BodyWeight.objects.filter(
+                user=self.id
+                ).order_by('-date').last()[0].bodyweight
         except IndexError:
-            return None
+            weight = None
+        return weight
 
     def bodyweight_history(self):
-        """
-        Returns a QuerySet of bodyweight instanes, detailing the bodyweight of 
-        a user over time.
-        """
+        """Returns all bodyweight records relating to the user."""
         return BodyWeight.objects.get_bodyweight_history(self)
 
     def count_following(self):
-        """
-        Returns the number of other users the user instance is following.
-        """
+        """Returns the number of other users the user is following."""
         return Friend.objects.following(self).count()
 
     def count_followers(self):
-        """
-        Returns the number of followers a user instance has.
-        """
+        """Returns the number of followers the user has."""
         return Friend.objects.followers(self).count()
 
     def count_groups(self):
-        """
-        Returns the number of groups a user is a member of.
-        """
+        """Returns the number of groups a user is a member of."""
         return GroupMember.objects.filter(user=self.id).count()
 
     def count_meals(self):
-        """
-        Returns the number of meals a user has recorded.
-        """
+        """Returns the number of meals a user has recorded."""
         return DailyNutrition.objects.filter(user=self.id).count()
 
     def count_photos(self):
-        """
-        Returns the number of photos a user has uploaded.
-        """
+        """Returns the number of photos a user has uploaded."""
         return 0
 
     def count_workouts(self):
-        """
-        Returns te number of workouts a user has recorded.
-        """
+        """Returns the number of workouts a user has recorded."""
         return Workout.objects.filter(user=self).count()
 
 
 class BodyWeight(models.Model):
-    """
-    Records the weight of each user on a particular date.
-    """
+    """Records the weight of a user on a particular date."""
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    bodyweight = models.IntegerField()
     date = models.DateField()
+    bodyweight = models.IntegerField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     objects = BodyWeightManager()
 
@@ -129,10 +102,7 @@ class BodyWeight(models.Model):
 
 
 class DailyNutrition(models.Model):
-    """
-    Macro nutritional summary of the food consumed on a particular day 
-    by a specific user.
-    """
+    """Nutritional record of the food consumed by a user on a given day."""
 
     date = models.DateField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -148,9 +118,7 @@ class DailyNutrition(models.Model):
         return "{}".format(self.id)
 
     def get_absolute_url(self):
-        """
-        Returns a canonical URL for a DailyNutrition instance.
-        """
+        """Returns a canonical URL for a DailyNutrition instance."""
         return reverse('meal', kwargs={'meal_id': self.id})
 
     def newsfeed_category(self):
@@ -170,25 +138,10 @@ class Exercise(models.Model):
           _clean_exercise_name().
     """
 
-    MUSCLE_CHOICES = (
-        ('Triceps', 'Triceps'),
-        ('Biceps', 'Biceps'),
-        ('Back', 'Back'),
-        ('Glutes', 'Glutes'),
-        ('Hamstrings', 'Hamstrings'),
-        ('Calves', 'Calves'),
-        ('Quads', 'Quads'),
-        ('Abs', 'Abs'),
-        ('Forearms', 'Forearms'),
-        ('Chest', 'Chest'),
-        ('Shoulders', 'Shoulders'),
-        ('Traps', 'Traps'),
-    )
-
     name = models.CharField(primary_key=True, max_length=50)
     clean_name = models.CharField(max_length=50)
-    primary_muscle = models.CharField(choices=MUSCLE_CHOICES, max_length=40)
-    secondary_muscles = models.CharField(choices=MUSCLE_CHOICES, max_length=40)
+    primary_muscle = models.CharField(choices=MUSCLE_GROUPS, max_length=40)
+    secondary_muscles = models.CharField(choices=MUSCLE_GROUPS, max_length=40)
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL)
     added_at = models.DateTimeField(default=datetime.now)
 
@@ -202,9 +155,7 @@ class Exercise(models.Model):
         super(Exercise, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        """
-        Returns a canonical URL for a exercise instance.
-        """
+        """Returns a canonical URL for a exercise instance."""
         return reverse('exercise', kwargs={'exercise_name': self.clean_name})
 
     def records(self, user=None):
@@ -239,9 +190,7 @@ class Exercise(models.Model):
 
 
 class Friend(models.Model):
-    """
-    Represents the relationship between a user and their follower.
-    """
+    """Represents the relationship between a user and their follower."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+')
     friend = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='+')
@@ -274,39 +223,27 @@ class Group(models.Model):
         default="http://uxrepo.com/static/icon-sets/elusive/svg/group.svg")
 
     def count_members(self):
-        """
-        Returns the number of members in a given group.
-        """
+        """Returns the number of members in a given group."""
         return self.get_members().count()
 
     def get_members(self):
-        """
-        Returns a QuerySet of GroupMember objects for a given group.
-        """
+        """Returns all user object members for a given group."""
         return GroupMember.objects.filter(group=self.name)
 
     def get_members_usernames(self):
-        """
-        Returns a iterable of GroupMember usernames.
-        """
+        """Returns a list of all group member usernames."""
         return [m.user.username for m in self.get_members()]
 
     def get_pending_members(self):
-        """
-        Returns a QuerySet of members not yet approved by a group admin.
-        """
+        """Returns a QuerySet of members not yet approved by a group admin."""
         return GroupMember.objects.filter(group=self.group_id, approved=False)
 
     def get_admin(self):
-        """
-        Returns a QuerySet of members with admin permissions.
-        """
+        """Returns a QuerySet of members with admin permissions."""
         return GroupMember.objects.filter(group=self.group_id, admin=True)
 
     def get_admin_usernames(self):
-        """
-        Returns a iterable of group member usernames.
-        """
+        """Returns a list of group member usernames with admin permsissions."""
         return [a.user.username for a in self.get_admin()]
 
     def __unicode__(self):
@@ -314,9 +251,7 @@ class Group(models.Model):
 
 
 class GroupMember(models.Model):
-    """
-    Each row represents a user in a membership group.
-    """
+    """User membership for a group."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     group = models.ForeignKey(Group)
@@ -356,9 +291,7 @@ class Set(models.Model):
 
 
 class Workout(models.Model):
-    """
-    Represents a single workout.
-    """
+    """Represents a single workout by a given user."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     date = models.DateTimeField()
@@ -371,22 +304,16 @@ class Workout(models.Model):
         return "{}".format(self.id)
 
     def get_absolute_url(self):
-        """
-        Returns a canonical URL for a workout instance.
-        """
+        """Returns a canonical URL for a workout instance."""
         return reverse('workout', kwargs={'workout_id': self.id})
 
     #custom methods
     def get_sets(self):
-        """
-        Returns a QuerySet of set instances recorded in the workout.
-        """
+        """Returns all sets recorded in the workout."""
         return Set.objects.filter(workout=self)
 
     def get_exercises(self):
-        """
-        Returns a QuerySet of all unqiue workout instances in a given workout.
-        """
+        """Returns all unqiue workout instances in a given workout."""
         return Set.objects.filter(workout=self).values('exercise').distinct()
 
     def includes_exercise(self, exercise):
@@ -412,9 +339,7 @@ class Workout(models.Model):
         return self.description
 
     def timeline(self):
-        """
-        Returns a iterable of exercise name, rep tuples.
-        """
+        """Returns a list of exercise (name, reps) tuples."""
         return [(s.exercise.name, s.reps) for s in self.get_sets()]
 
     def primary_muscles_targeted(self):
@@ -445,9 +370,7 @@ class Workout(models.Model):
         }
 
     def sets_in_rep_ranges_per_exercise(self):
-        """
-        This is a terrible implementation done in a rush.
-        """
+        """TODO - improve this rubbish implementation :/"""
 
         data = {
             'exercises': [],
@@ -471,9 +394,7 @@ class Workout(models.Model):
         return data
 
     def sets_in_rep_ranges_per_muscle(self):
-        """
-        Violating some DRY here - this needs a rework.
-        """
+        """TODO - stop not being DRY"""
 
         data = {
             'muscles': [],
