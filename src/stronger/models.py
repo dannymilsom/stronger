@@ -37,26 +37,32 @@ class StrongerUser(AbstractUser):
     @property
     def bodyweight(self):
         """Returns the most recent bodyweight instance for the user."""
-        return Bodyweight.objects.current_bodyweight(self)
+        from stronger.models import BodyWeight
+        return BodyWeight.objects.current_bodyweight(self)
 
     def bodyweight_history(self):
         """Returns all bodyweight records relating to the user."""
+        from stronger.models import BodyWeight
         return BodyWeight.objects.get_bodyweight_history(self)
 
     def count_following(self):
         """Returns the number of other users the user is following."""
+        from stronger.models import Friend
         return Friend.objects.following(self).count()
 
     def count_followers(self):
         """Returns the number of followers the user has."""
+        from stronger.models import Friend
         return Friend.objects.followers(self).count()
 
     def count_groups(self):
         """Returns the number of groups a user is a member of."""
+        from stronger.models import GroupMember
         return GroupMember.objects.filter(user=self.id).count()
 
     def count_meals(self):
         """Returns the number of meals a user has recorded."""
+        from stronger.models import DailyNutrition
         return DailyNutrition.objects.filter(user=self.id).count()
 
     def count_photos(self):
@@ -65,6 +71,7 @@ class StrongerUser(AbstractUser):
 
     def count_workouts(self):
         """Returns the number of workouts a user has recorded."""
+        from stronger.models import Workout
         return Workout.objects.filter(user=self).count()
 
 
@@ -265,8 +272,8 @@ class Set(models.Model):
     includes a number of sets.
     """
 
-    workout = models.ForeignKey(Workout)
-    exercise = models.ForeignKey(Exercise)
+    workout = models.ForeignKey('stronger.Workout')
+    exercise = models.ForeignKey('stronger.Exercise')
     weight = models.FloatField()
     reps = models.IntegerField()
 
