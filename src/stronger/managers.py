@@ -4,18 +4,16 @@ from operator import attrgetter, itemgetter
 
 from django.db.models import Manager
 
-from . import models
-
 
 class BodyWeightManager(Manager):
 
     def get_bodyweight_history(self, user):
-        return self.get_queryset.filter(user=user).order_by('-date')
+        return self.get_queryset().filter(user=user).order_by('-date')
 
     def current_bodyweight(self, user):
         """The latest bodyweight recorded by a given user."""
         try:
-            bodyweight = self.get_queryset.filter(user=user).last()[0]
+            bodyweight = self.get_queryset().filter(user=user).last()[0]
         except IndexError:
             bodyweight = None
         return bodyweight
@@ -31,7 +29,7 @@ class DailyNutritionManager(Manager):
         A optional kwarg is to denotate the limit of users returned.
         """
 
-        all_nutrition = self.get_queryset.all().order_by('user')
+        all_nutrition = self.get_queryset().all().order_by('user')
         nutrition_count = []
         for user, nutrition in itertools.groupby(all_nutrition, attrgetter('user')):
             if len(nutrition_count) < limit:
@@ -42,9 +40,9 @@ class DailyNutritionManager(Manager):
         return nutrition_count
 
     def workout_day_nutrition(self, user, calories_only=False):
-    
-        wko_dates = models.Workout.objects.workout_dates(user)
-        wko_data = self.get_queryset.filter(user=user, date__in=wko_dates)
+        from .models import Workout
+        wko_dates = Workout.objects.workout_dates(user)
+        wko_data = self.get_queryset().filter(user=user, date__in=wko_dates)
 
         if wko_data and calories_only:
             wko_data = sum([n.calories for n in wko_data]) / len(wko_data)
@@ -52,9 +50,9 @@ class DailyNutritionManager(Manager):
         return wko_data
 
     def rest_day_nutrition(self, user, calories_only=False):
-
-        wko_dates = models.Workout.objects.workout_dates(user)
-        rest_data = self.get_queryset.filter(user=user).exclude(date__in=wko_dates)
+        from .models import Workout
+        wko_dates = Workout.objects.workout_dates(user)
+        rest_data = self.get_queryset().filter(user=user).exclude(date__in=wko_dates)
         if rest_data and calories_only:
             rest_data = sum([n.calories for n in rest_data]) / len(rest_data)
         
@@ -70,7 +68,7 @@ class ExerciseManager(Manager):
         """
 
         categorised_exercises = []
-        all_exercises = self.get_queryset.s.all().order_by('primary_muscle')
+        all_exercises = self.get_queryset().all().order_by('primary_muscle')
 
         for bodypart, exercises in itertools.groupby(all_exercises,
             key=attrgetter("primary_muscle")):
@@ -89,7 +87,7 @@ class FriendManager(Manager):
         Returns a QuerySet of Friend instances, representing users following 
         specified the user (passed as positional arg).
         """
-        return self.get_queryset.filter(friend=user)
+        return self.get_queryset().filter(friend=user)
 
     def following(self, user):
         """
@@ -97,7 +95,7 @@ class FriendManager(Manager):
         specified has selected to follow (this user is specified by 
         passed as positional arg).
         """
-        return self.get_queryset.filter(user=user)
+        return self.get_queryset().filter(user=user)
 
 
 class SetManager(Manager):
@@ -113,10 +111,10 @@ class SetManager(Manager):
         exercises = ['squat', 'deadlift', 'bench']
 
         if user and friends:
-            all_sets = self.get_queryset.filter(exercise__clean_name__in=exercises,
+            all_sets = self.get_queryset().filter(exercise__clean_name__in=exercises,
                 workout__user__in=friends).order_by('workout__user')
         else:
-            all_sets = self.get_queryset.filter(exercise__clean_name__in=exercises) \
+            all_sets = self.get_queryset().filter(exercise__clean_name__in=exercises) \
                 .order_by('workout__user')
 
         total_counter = {}
@@ -152,7 +150,7 @@ class WorkoutManager(Manager):
         has recorded a workout.
         """
 
-        return [w.date.date() for w in self.get_queryset.filter(user=user)]
+        return [w.date.date() for w in self.get_queryset().filter(user=user)]
 
     def most_frequent_users(self, limit=10):
         """
@@ -162,7 +160,7 @@ class WorkoutManager(Manager):
         A optional kwarg is to denotate the limit of users returned.
         """
 
-        all_workouts = self.get_queryset.all().order_by('user')
+        all_workouts = self.get_queryset().all().order_by('user')
         workout_count = []
         for user, workouts in itertools.groupby(all_workouts, attrgetter('user')):
             if len(workout_count) < limit:
@@ -178,7 +176,7 @@ class WorkoutManager(Manager):
         logged, which include a specified exercise.
         """
 
-        workouts = self.get_queryset.filter(user=user).order_by('date')
+        workouts = self.get_queryset().filter(user=user).order_by('date')
         return [w for w in workouts if w.includes_exercise(exercise)]
 
     def average_workouts_per_month(self, user=None, history=365):
@@ -195,10 +193,10 @@ class WorkoutManager(Manager):
         start_date = end_date - timedelta(days=int(days_back))
 
         if user:
-            workouts = self.get_queryset.filter(user=user,
+            workouts = self.get_queryset().filter(user=user,
                 date__range=(start_date, end_date)).order_by('-date')
         else:
-            workouts = self.get_queryset.filter(date__range=(
+            workouts = self.get_queryset().filter(date__range=(
                 start_date, end_date)).order_by('-date')
 
         temp_counter = {}
