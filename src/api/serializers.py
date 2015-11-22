@@ -19,71 +19,78 @@ User = get_user_model()
 
 
 class BodyWeightSerializer(serializers.ModelSerializer):
-    """
-    Model Serializer for the BodyWeight model.
-    """
+    """Model Serializer for the BodyWeight model."""
 
     class Meta:
         model = BodyWeight
-        fields = ('user', 'bodyweight', 'date')
+        fields = (
+            'user',
+            'bodyweight',
+            'date',
+        )
 
 
 class DailyNutritionSerializer(serializers.ModelSerializer):
-    """
-    Model Serializer for the DailyNutrition model.
-    """
+    """Model Serializer for the DailyNutrition model."""
 
     class Meta:
         model = DailyNutrition
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
-    """
-    Model Serializer for the Exercise model.
-    """
+    """Model Serializer for the Exercise model."""
 
     class Meta:
         model = Exercise
-        fields = ('name', 'primary_muscle', 'secondary_muscles')
+        fields = (
+            'name',
+            'primary_muscle',
+            'secondary_muscles',
+        )
 
 
 class FriendSerializer(serializers.ModelSerializer):
-    """
-    Model Serializer for the Friend model.
-    """
+    """Model Serializer for the Friend model."""
 
     class Meta:
         model = Friend
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    """
-    Model Serializer for the Group model.
-    """
+    """Model Serializer for the Group model."""
 
     class Meta:
         model = Group
-        fields = ('name', 'about', 'background_url')
+        fields = (
+            'name',
+            'about',
+            'background_url',
+        )
 
 
 class GroupMembersSerializer(serializers.ModelSerializer):
-    """
-    Model Serializer for the GroupMember model.
-    """
+    """Model Serializer for the GroupMember model."""
 
     class Meta:
         model = GroupMember
-        fields = ('user', 'group', 'joined')
+        fields = (
+            'user',
+            'group',
+            'joined',
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """
-    Model Serializer for the custom User model.
-    """
+    """Model Serializer for the custom User model."""
 
     class Meta:
         model = User
-        exclude = ('password', 'last_login', 'user_permissions', 'is_staff')
+        exclude = (
+            'password',
+            'last_login',
+            'user_permissions',
+            'is_staff',
+        )
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
@@ -93,4 +100,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ('user', 'date', 'description', 'comments')
+        fields = (
+            'user',
+            'date',
+            'description',
+            'comments',
+        )
