@@ -1,6 +1,6 @@
 """Model based views for API."""
 
- from datetime import datetime
+from datetime import datetime
 
 from django.contrib.auth import get_user_model
 
@@ -13,15 +13,15 @@ from stronger.models import (
     Friend,
     Group,
     GroupMember,
-    Workout, 
+    Workout,
 )
-from .serializer import (
-    BodyWeightSerializer
-    DailyNutritionSerializer
-    ExerciseSerializer
-    FriendSerializer
+from .serializers import (
+    BodyWeightSerializer,
+    DailyNutritionSerializer,
+    ExerciseSerializer,
+    FriendSerializer,
     GroupSerializer,
-    GroupMembersSerializer, 
+    GroupMembersSerializer,
     UserSerializer,
     WorkoutSerializer,
 )
