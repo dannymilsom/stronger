@@ -2,47 +2,32 @@
 
 from django.conf.urls import patterns, include, url
 
+from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+
 from .views import (
-    BodyWeightList,
-    BodyWeightDetail,
-    ExerciseList,
-    ExerciseDetail,
-    FriendList,
-    FriendDetail,
-    GroupList,
-    GroupDetail,
-    GroupMemberList,
-    NutritionList,
-    NutritionDetail,
-    UserDetail,
-    UserList,
-    WorkoutList,
-    WorkoutDetail,
+    BodyWeightViewSet,
+    ExerciseViewSet,
+    FriendViewSet,
+    GroupViewSet,
+    GroupMemberViewSet,
+    NutritionViewSet,
+    UserViewSet,
+    WorkoutViewSet,
 )
 
-# TODO - use a router and more generic viewsets
+
+router = routers.DefaultRouter()
+router.register(r'bodyweight', BodyWeightViewSet)
+router.register(r'exercises', ExerciseViewSet)
+router.register(r'friends', FriendViewSet)
+router.register(r'groups', GroupViewSet)
+router.register(r'groupmembers', GroupMemberViewSet)
+router.register(r'nutrition', NutritionViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'workouts', WorkoutViewSet)
+
 urlpatterns = patterns('',
-    url(r'^bodyweight$',BodyWeightList.as_view()),
-    url(r'^bodyweight/(?P<pk>[0-9]+)$', BodyWeightDetail.as_view()),
-
-    url(r'^exercises$', ExerciseList.as_view()),
-    url(r'^exercises/(?P<clean_name>[-a-zA-Z]+)$', ExerciseDetail.as_view()),
-
-    url(r'^friends$', FriendList.as_view()),
-    url(r'^friends/(?P<pk>[0-9]+)$', FriendDetail.as_view()),
-
-    url(r'^groups$', GroupList.as_view()),
-    url(r'^groups/(?P<pk>[-a-zA-Z0-9]+)$', GroupDetail.as_view()),
-    url(r'^groupmembers/$', GroupMemberList.as_view()),
-
-    url(r'^nutrition$', NutritionList.as_view()),
-    url(r'^nutrition/(?P<pk>[0-9]+)$', NutritionDetail.as_view()),
-
-    url(r'^users$', UserList.as_view()),
-    url(r'^users/(?P<username>[-a-zA-Z0-9]+)$', UserDetail.as_view()),
-
-    url(r'^workouts$', WorkoutList.as_view()),
-    url(r'^workouts/(?P<pk>[0-9]+)$', WorkoutDetail.as_view()),
-
-    url(r'^get-auth-token$', 'rest_framework.authtoken.views.obtain_auth_token'),
+    url(r'^', include(router.urls)),
+    url(r'^get-auth-token$', obtain_auth_token),
 )
