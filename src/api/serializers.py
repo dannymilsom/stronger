@@ -11,6 +11,7 @@ from stronger.models import (
     Friend,
     Group,
     GroupMember,
+    Set,
     Workout, 
 )
 
@@ -80,6 +81,13 @@ class GroupMembersSerializer(serializers.ModelSerializer):
         )
 
 
+class SetSerializer(serializers.ModelSerializer):
+    """Model Serializer for the Set model."""
+
+    class Meta:
+        model = Set
+
+
 class UserSerializer(serializers.ModelSerializer):
     """Model Serializer for the custom User model."""
 
@@ -94,9 +102,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
-    """
-    Model Serializer for the Workout model.
-    """
+    """Model Serializer for the Workout model."""
+
+    sets = serializers.SerializerMethodField('sets_in_workout')
 
     class Meta:
         model = Workout
@@ -105,4 +113,10 @@ class WorkoutSerializer(serializers.ModelSerializer):
             'date',
             'description',
             'comments',
+            'sets'
         )
+
+    def sets_in_workout(self, obj):
+        """Return a nested, serialized representation of all sets performed
+        in this workout."""
+        return SetSerializer(obj.get_sets(), many=True).data
