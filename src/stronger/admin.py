@@ -11,15 +11,13 @@ from .models import (
     Workout,
 )
 
-admin.site.register(
-    (
-        BodyWeight,
-        DailyNutrition,
-        Exercise,
-        Friend,
-        Group,
-        GroupMember,
-        Set,
-        Workout,
-    )
-)
+admin.site.register((
+    BodyWeight,
+    DailyNutrition,
+    Exercise,
+    Friend,
+    Group,
+    GroupMember,
+    Set,
+    Workout,
+))
