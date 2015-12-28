@@ -8,9 +8,9 @@ class GroupMember(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     group = models.ForeignKey('stronger.Group')
     joined = models.DateField()
-    approved = models.BooleanField()
-    approved_by = models.BooleanField()
-    admin = models.BooleanField()
+    approved = models.BooleanField(default=False)
+    approved_by = models.BooleanField(default=False)
+    admin = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "{} - {}".format(self.user, self.group)
