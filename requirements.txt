@@ -1,6 +1,5 @@
-Django==1.6.5
+Django==1.7
 Fabric==1.10.0
-South==1.0
 argparse==1.2.1
 distribute==0.6.24
 django-filter==0.7
