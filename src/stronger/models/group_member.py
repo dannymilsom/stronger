@@ -12,5 +12,8 @@ class GroupMember(models.Model):
     approved_by = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ('-joined',)
+
     def __unicode__(self):
         return "{} - {}".format(self.user, self.group)

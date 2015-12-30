@@ -30,12 +30,16 @@ def groups(request):
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid():
-            Group.objects.create(name=request.POST.get('name'),
-                                  about=request.POST.get('about'),
-                                  created=timezone.now().date())
+            Group.objects.create(
+                name=request.POST.get('name'),
+                about=request.POST.get('about'),
+                created=timezone.now().date()
+            )
+
+    memberships = GroupMember.objects.filter(user=request.user)
+    groups = [mem.group for mem in memberships.select_related('group')]
     data = {
-        'groups': [g.group for g in GroupMember.objects.filter(
-            user=request.user).order_by('-joined')],
+        'groups': groups,
         'group_form': GroupForm(),
     }
 
