@@ -17,6 +17,7 @@ class BodyWeight(models.Model):
         # this is only applicable at the db level (no SQLite support)
         # so we cover this in the clean() method too
         unique_together = ('user', 'date')
+        get_latest_by = 'date'
         ordering = ('-date',)
 
     def __unicode__(self):
