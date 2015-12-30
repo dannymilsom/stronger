@@ -29,6 +29,9 @@ class Exercise(models.Model):
 
     objects = ExerciseManager()
 
+    class Meta:
+        ordering = ('primary_muscle',)
+
     def __unicode__(self):
         return self.name
 
@@ -42,22 +45,19 @@ class Exercise(models.Model):
 
     def records(self, user=None):
         """
-        Returns a dictionary where the keys are the reps and the values are
-        a set object representing the heaviest amount of of weight lifted 
-        for a certain exercise.
-
-        If no user kwarg is passed, we return the site wide records.
+        Returns a dictionary where the keys are the reps and the values are a
+        set representing the heaviest amount of of weight lifted for a given
+        exercise. If no user kwarg is passed, we return the site wide records.
         """
-
-        pbs = {}
+        exercise_sets = self.set.filter(exercise=self).order_by('reps')
         if user:
-            sets_ordered_by_reps = self.set.objects.filter(exercise=self,
-                                    workout__user__exact=user).order_by('reps')
-        else:
-            sets_ordered_by_reps = self.set.filter(exercise=self).order_by('reps')
-        for reps, sets in itertools.groupby(sets_ordered_by_reps, attrgetter('reps')):
-            pbs[reps] = max(sets, key=attrgetter('weight'))
-        return pbs
+            exercise_sets.filter(workout__user=user)
+
+        exercise_records = {}
+        for reps, sets in itertools.groupby(exercise_sets, attrgetter('reps')):
+            exercise_records[reps] = max(sets, key=attrgetter('weight'))
+
+        return exercise_records
 
     def _clean_exercise_name(self):
         """

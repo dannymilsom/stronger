@@ -470,7 +470,7 @@ def ajax_big_three_progress(request, username):
     squat, deadlift and bench.
     """
 
-    user = get_object_or_404(user, username=request.user)
+    user = get_object_or_404(User, username=request.user)
 
     big_three_history = {
         'squat': _exercise_history(user,
@@ -486,17 +486,14 @@ def ajax_big_three_progress(request, username):
         big_three_history[exercise] = dict((d, max(w)) 
             for d, w in history.iteritems())
 
-    return HttpResponse(json.dumps(big_three_history),
-            content_type = "application/json")
+    return JsonResponse(big_three_history)
 
 def ajax_popular_exercises(request):
-
+    """Return the most popular exercises."""
     data = {
-        'popular_exercises': Counter([s.exercise.name 
-            for s in Set.objects.all()]).most_common(5)
+        'popular_exercises': Exercise.objects.most_popular(5)
     }
-
-    return HttpResponse(json.dumps(data), content_type = "application/json")
+    return JsonResponse(data)
 
 def ajax_exercise_history(request, exercise_name):
 
@@ -506,37 +503,45 @@ def ajax_exercise_history(request, exercise_name):
         'exercise-progress': _exercise_progression(request.user,
             exercise, request.GET.get('reps', '5')),
     }
-    return HttpResponse(json.dumps(data), content_type = "application/json")
+    return JsonResponse(data)
 
 def _exercise_progression(user, exercise, reps=5):
     """
-    Returns the highest weight lifted by a user for a specified exercise, in 
-    a particular repo range, in each recorded workout.
+    Returns the highest weight lifted by a user for a specified exercise, in
+    a particular rep range, in each recorded workout.
 
-    We expect this to demonstrate progression over time - but that is not 
+    We expect this to demonstrate progression over time - but that is not
     guaranteed!
     """
 
-    exercise_sets = Set.objects.filter(exercise=exercise, reps=reps,
-        workout__user__exact=user)
+    exercise_sets = Set.objects.filter(
+        exercise=exercise,
+        reps=reps,
+        workout__user=user
+    )
 
     history = {}
-    for workout, sets in groupby(sorted(exercise_sets,
-            key=attrgetter("workout")), key=attrgetter("workout")):
+    exercises_sorted_by_workout = sorted(exercise_sets, key=attrgetter("workout"))
+    for workout, sets in groupby(
+        exercises_sorted_by_workout, key=attrgetter("workout")):
         history[workout.date.strftime("%Y-%m-%d")] = max([s.weight for s in sets])
 
     return history
 
 def _exercise_records(user, exercise):
+    """Returns the user specific and site wide records of the heavies weight
+    used to perform varied reps of a given exercise."""
 
     def _format_records(records):
         temp_records = {}
+        from nose.tools import set_trace; set_trace()
         for i in xrange(1, 11):
             try:
-                temp_records[i] = (records[i].weight,
-                    records[i].workout.user.username)
+                record = records[i]
             except KeyError:
-                temp_records[i] = (0, 'unknown')
+                temp_records[i] = (0, None)
+            else:
+                temp_records[i] = (record.weight, record.workout.user.username)
         return temp_records
 
     return {

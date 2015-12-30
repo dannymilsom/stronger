@@ -2,21 +2,17 @@ from django.db.models import Manager
 
 
 class FriendManager(Manager):
-    """
-    Extends the Friend model manager, making class like methods available.
-    """
 
     def followers(self, user):
         """
-        Returns a QuerySet of Friend instances, representing users following 
-        specified the user (passed as positional arg).
+        Returns a QuerySet of Friend instances, representing users following
+        the specified user.
         """
-        return self.get_queryset().filter(friend=user)
+        return self.get_queryset().filter(friend=user).select_related('user')
 
     def following(self, user):
         """
-        Returns a QuerySet of Friend instances, representing users the 
-        specified has selected to follow (this user is specified by 
-        passed as positional arg).
+        Returns a QuerySet of Friend instances, representing users the
+        specified has selected to follow.
         """
-        return self.get_queryset().filter(user=user)
+        return self.get_queryset().filter(user=user).select_related('friend')
