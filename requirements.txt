@@ -10,3 +10,4 @@ pycrypto==2.6.1
 pytz==2014.7
 wsgiref==0.1.2
 django-nose==1.4
+factory_boy
