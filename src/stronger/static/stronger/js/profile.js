@@ -20,7 +20,7 @@
             $("#add-friend").on("click", function() {
                 res = $.ajax({
                     method: 'POST',
-                    url: '/api/friends',
+                    url: '/api/friends/',
                     cache: false,
                     dataType: 'text',
                     data: {
