@@ -35,7 +35,7 @@ class BodyWeightViewSet(viewsets.ModelViewSet):
 
     queryset = BodyWeight.objects.all()
     serializer_class = BodyWeightSerializer
-    filter_fields = ('user,')
+    filter_fields = ('user',)
 
 
 class ExerciseViewSet(AuthorPreSaveMixin, viewsets.ModelViewSet):
