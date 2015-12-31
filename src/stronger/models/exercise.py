@@ -59,6 +59,21 @@ class Exercise(models.Model):
 
         return exercise_records
 
+    def sum_reps(self, user, time_limit=None):
+        """Count the number of reps performed during a given period by a user."""
+        if time_limit is None:
+            exercise_sets = self.set.filter(
+                exercise=self,
+                workout__user=user,
+            )
+        else:
+            exercise_sets = self.set.filter(
+                exercise=self,
+                workout__user=user,
+                workout__date__gt=time_limit,
+            )
+        return exercise_sets.aggregate(models.Sum('reps'))['reps__sum']
+
     def _clean_exercise_name(self):
         """
         Creates a database friendly version of the exercise name, in lower 

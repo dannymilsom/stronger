@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from itertools import groupby
 from operator import attrgetter
@@ -7,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
+from django.utils import timezone
 
 from ..forms import AddExerciseForm, FindExerciseForm, Friend
 from stronger.models import Exercise, Set
@@ -34,10 +36,24 @@ def exercise(request, exercise_name):
         ).select_related('workout')
     ]
 
+    todays_date = timezone.now().date()
     data = {
         'exercise': exercise,
         'workouts': workouts_including_exercise,
         'edit_exercise_form': AddExerciseForm(instance=exercise),
+        'all_time_rep_count': exercise.sum_reps(request.user),
+        'year_rep_count': exercise.sum_reps(
+            request.user, timezone.make_aware(
+                datetime(todays_date.year, 1, 1),
+                timezone.get_default_timezone()
+            )
+        ),
+        'month_rep_count': exercise.sum_reps(
+            request.user, timezone.make_aware(
+                datetime(todays_date.year, todays_date.month, 1),
+                timezone.get_default_timezone()
+            )
+        ),
     }
 
     return render(request, "exercise.html", data)

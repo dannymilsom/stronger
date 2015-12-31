@@ -90,6 +90,32 @@ STRONGER | Exercise | {{ exercise.name }}
           </span>
         </div>
         <div class="row">
+          <span class="col-xs-12 col-sm-4 top-buffer">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">
+                {{ all_time_rep_count }} reps
+              </span>
+              All Time
+            </div>
+          </span>
+          <span class="col-xs-12 col-sm-4 top-buffer">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">
+                {{ year_rep_count }} reps
+              </span>
+              This Year
+            </div>
+          </span>
+          <span class="col-xs-12 col-sm-4 top-buffer">
+            <div class="dashboard-btn">
+              <span class="dashboard-stat">
+                {{ month_rep_count }} reps
+              </span>
+              This Month
+            </div>
+          </span>
+        </div>
+        <div class="row">
           <div class="col-xs-12">
             <div id="exercise-records" class="highchart top-buffer"></div>
           </div>
