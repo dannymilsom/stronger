@@ -185,7 +185,7 @@
 
         },
         datePicker: function() {
-            $(".datepicker").datepicker();
+            $(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
         },
         _processLogin: function(data) {
             if (data['authenticated']) {
