@@ -283,11 +283,12 @@ class BodyWeightForm(forms.ModelForm):
 
     bodyweight = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Bodyweight (KG)',
-        'class': 'wide-form-field'
+        'class': 'wide-form-field',
     }))
     date = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Date (YYYY-MM-DD)',
-        'class': 'wide-form-field datepicker'
+        'class': 'wide-form-field datepicker',
+        'id': 'bodyweight_date',
     }))
 
     class Meta:
@@ -304,6 +305,7 @@ class DailyNutritionForm(forms.ModelForm):
             'date': forms.TextInput(attrs={
                 'placeholder': 'Date (YYYY-MM-DD)',
                 'class': 'wide-form-field datepicker',
+                'id': 'nutrition_date',
             }),
             'calories': forms.TextInput(attrs={
                 'placeholder': 'Calories',
