@@ -1,7 +1,7 @@
 {
   "name": "stronger_project",
   "version": "0.0.0",
-  "description": "Package JSON file for NPM.",
+  "description": "Track workouts and nutrition with an open source tool.",
   "main": "gruntfile.js",
   "repository": {
     "type": "git",
@@ -13,8 +13,9 @@
   },
   "homepage": "https://github.com/dannymilsom/stronger",
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-less": "~0.11.0",
-    "grunt-contrib-watch": "~0.6.1"
+    "gulp": "~3.9.0",
+    "gulp-sass": "~2.1.0",
+    "gulp-concat": "~2.6.0",
+    "gulp-minify-css": "~1.2.1"
   }
 }
