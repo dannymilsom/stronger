@@ -5,30 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {% block css %}
-    <!-- load third party CSS first and then custom stronger stylesheets -->
+    <link rel="stylesheet" href="/static/stronger/css/styles.css"/>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <link rel="stylesheet" href="/static/stronger/css/libs/bootstrap.min.css"/>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' >
-    <link rel="stylesheet" href="/static/stronger/css/libs/select2.css"/>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-    <link rel="stylesheet" href="/static/stronger/css/layout.css"/>
     {% endblock %}
-
-    <!--load jQuery core, jQuery UI and jQuery validation -->
-    <script src="/static/stronger/js/libs/jquery-1.11.1.min.js"></script>
-    <script src="/static/stronger/js/libs/jquery-migrate-1.2.1.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script src="/static/stronger/js/libs/jquery.validate.min.js"></script>
-    <script src="/static/stronger/js/libs/additional-methods.min.js"></script>
-
-    <!-- load other third part javascripts (select2, highcharts and bootstrap) -->
-    <script src="/static/stronger/js/libs/select2.min.js"></script>
-    <script src="/static/stronger/js/libs/highchart.js"></script>
-    <script src="/static/stronger/js/libs/highchart-exporting.js"></script>
-    <script src="/static/stronger/js/libs/bootstrap.min.js"></script>
-
-    <!-- finally load stronger javascript -->
-    <script src="/static/stronger/js/stronger.js"></script>
 
     {% block header %}
     {% endblock %}
@@ -140,5 +119,10 @@
         </form>
       </div>
     </div>
+
+    <script src="/static/stronger/js/scripts.js"></script>
+    <script src="/static/stronger/js/libs/bootstrap.min.js"></script>
+    {% block scripts %}{% endblock %}
+
   </body>
 </html>
