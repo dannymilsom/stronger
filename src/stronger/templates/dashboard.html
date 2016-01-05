@@ -1,9 +1,5 @@
 {% extends "base.html" %}
 
-{% block header %}
-    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
-{% endblock %}
-
 {% block title %}
 STRONGER | Dashboard
 {% endblock %}
@@ -50,4 +46,8 @@ STRONGER | Dashboard
 {% endblock %}
 
 {% block message %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
 {% endblock %}

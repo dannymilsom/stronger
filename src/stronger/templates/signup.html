@@ -1,32 +1,5 @@
 {% extends "base.html" %}
 
-{% block header %}
-<script type="text/javascript">
-$(function() {
-  $("#signup-form").submit(function(e) {
-      $(this).validate({
-        rules: {
-          username: {
-            required: true
-          },
-          email: {
-            required: true,
-            email: true
-          },
-          password: {
-              required: true
-          }
-        }
-      });
-
-      if (!$(this).valid()) {
-        e.preventDefault()
-      }
-  });
-});
-</script>
-{% endblock %}
-
 {% block title %}
 STRONGER | Sign Up
 {% endblock %}
@@ -57,4 +30,31 @@ STRONGER | Sign Up
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+$(function() {
+  $("#signup-form").submit(function(e) {
+      $(this).validate({
+        rules: {
+          username: {
+            required: true
+          },
+          email: {
+            required: true,
+            email: true
+          },
+          password: {
+              required: true
+          }
+        }
+      });
+
+      if (!$(this).valid()) {
+        e.preventDefault()
+      }
+  });
+});
+</script>
 {% endblock %}

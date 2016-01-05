@@ -1,14 +1,5 @@
 {% extends "dashboard.html" %}
 
-{% block header %}
-  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
-  <script type="text/javascript" src="/static/stronger/js/nutrition.js"></script>
-  <script type="text/javascript">
-  // pass some data to our JS
-  data_from_django = {{ js_data|safe }};
-  </script>
-{% endblock %}
-
 {% block title %}
 STRONGER | Dashboard | Nutrition
 {% endblock %}
@@ -156,4 +147,12 @@ STRONGER | Dashboard | Nutrition
     {{ bodyweight_form.date }}
     <input id="bodyweight_submit" class="submit-btn" type="submit" value="Record Weight"/>
   </form>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="/static/stronger/js/nutrition.js"></script>
+  <script type="text/javascript">
+    data_from_django = {{ js_data|safe }};
+  </script>
 {% endblock %}

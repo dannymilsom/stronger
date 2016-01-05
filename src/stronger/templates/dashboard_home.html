@@ -1,13 +1,5 @@
 {% extends "dashboard.html" %}
 
-{% block header %}
-    <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
-    <script type="text/javascript" src="/static/stronger/js/dashboard_home.js"></script>
-    <script type="text/javascript">
-      data_from_django = {{ js_data|safe }};
-    </script>
-{% endblock %}
-
 {% block title %}
 STRONGER | Dashboard
 {% endblock %}
@@ -108,4 +100,12 @@ STRONGER | Dashboard
 
   </div> <!--dashboard-home -->
 
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/stronger/js/dashboard_home.js"></script>
+    <script type="text/javascript">
+      data_from_django = {{ js_data|safe }};
+    </script>
 {% endblock %}

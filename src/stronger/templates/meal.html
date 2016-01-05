@@ -1,14 +1,5 @@
 {% extends "dashboard.html" %}
 
-{% block header %}
-  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
-  <script type="text/javascript" src="/static/stronger/js/meal.js"></script>
-  <script type="text/javascript">
-    // pass some data to our JS
-    data_from_django = {{ js_data|safe }};
-  </script>
-{% endblock %}
-
 {% block title %}
 STRONGER | Dashboard | Meal
 {% endblock %}
@@ -88,4 +79,13 @@ STRONGER | Dashboard | Meal
     <input class="submit-btn"type="submit" value="Save Changes" />
   </form>
 
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="/static/stronger/js/meal.js"></script>
+  <script type="text/javascript">
+    // pass some data to our JS
+    data_from_django = {{ js_data|safe }};
+  </script>
 {% endblock %}

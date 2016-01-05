@@ -1,10 +1,5 @@
 {% extends "dashboard.html" %}
 
-{% block header %}
-  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
-  <script type="text/javascript" src="/static/stronger/js/exercise.js"></script>
-{% endblock %}
-
 {% block title %}
 STRONGER | Exercise | {{ exercise.name }}
 {% endblock %}
@@ -129,4 +124,10 @@ STRONGER | Exercise | {{ exercise.name }}
     {{ edit_exercise_form.secondary_muscles }}
     <input class="col-xs-12 btn btn-success" type="submit" value="Save Changes"/>
   </form>
+{% endblock %}
+
+
+{% block scripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="/static/stronger/js/exercise.js"></script>
 {% endblock %}

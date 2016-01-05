@@ -1,21 +1,5 @@
 {% extends "dashboard.html" %}
 
-{% block header %}
-  <script type="text/javascript" src="/static/stronger/js/dashboard.js"></script>
-  <script type="text/javascript" src="/static/stronger/js/exercises.js"></script>
-  <script type="text/javascript">
-    // pass some data to our JS
-    data_from_django = {{ js_data|safe }};
-    </script>
-    <script type="text/javascript">
-    $(function () {
-      // make each exercise input select2 to support filtering etc
-      $("#s2id_primary_muscle").select2({ placeholder: 'Primary Muscle'});
-      $("#s2id_secondary_muscles").select2({ placeholder: 'Secondary Muscle'});
-    });
-  </script>
-{% endblock %}
-
 {% block title %}
 STRONGER | Dashboard | Exercises
 {% endblock %}
@@ -113,4 +97,20 @@ STRONGER | Dashboard | Exercises
     {{ exercise_form.secondary_muscles }}
     <input class="col-xs-12 btn btn-success" type="submit" value="Add Exercise"/>
   </form>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="/static/stronger/js/exercises.js"></script>
+  <script type="text/javascript">
+    // pass some data to our JS
+    data_from_django = {{ js_data|safe }};
+    </script>
+    <script type="text/javascript">
+    $(function () {
+      // make each exercise input select2 to support filtering etc
+      $("#s2id_primary_muscle").select2({ placeholder: 'Primary Muscle'});
+      $("#s2id_secondary_muscles").select2({ placeholder: 'Secondary Muscle'});
+    });
+  </script>
 {% endblock %}
