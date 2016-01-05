@@ -66,3 +66,9 @@ target/
 
 # ignore node dependencies - they are all listed in package.json anyway
 node_modules
+
+.DS_Store
+
+# ignore compiled javascript / css
+src/stronger/static/stronger/css/
+src/stronger/static/stronger/js/scripts.js
