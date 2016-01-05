@@ -41,7 +41,7 @@
         prepareLoginDialog: function() {
 
             $("#login-dialog").dialog({
-                autoOpen: false,
+                autoOpen: false
             });
 
         },
